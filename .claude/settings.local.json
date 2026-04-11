@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(podman compose:*)",
+      "Bash(nvm version:*)",
+      "Bash(fnm --version)",
+      "Bash(jabba --version)",
+      "Bash(sdkman_init)",
+      "Bash(sdk version:*)",
+      "Bash(nvm.exe version:*)",
+      "Bash(where nvm:*)",
+      "Bash(where node:*)",
+      "Bash(where java:*)",
+      "Bash(grep -v \"^\\\\s*//\")",
+      "Bash(find:*)",
+      "Bash(podman --version)",
+      "Bash(docker --version)",
+      "Bash(java --version)",
+      "Bash(./mvnw spring-boot:run:*)",
+      "Bash(curl:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(where.exe node:*)",
+      "Bash(where.exe npm:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(export PATH=\"$NODE_DIR:$PATH\")",
+      "Bash(npm --version)",
+      "Bash(bash start-dev.sh)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist.exe)",
+      "Bash(taskkill.exe:*)",
+      "Bash(kill 11436 23716)",
+      "Bash(kill -9 11436 23716)",
+      "Bash(/c/WINDOWS/system32/taskkill.exe:*)",
+      "Bash(grep -E \"\\\\.java$\")",
+      "Bash(where npm:*)",
+      "Bash(/c/Program Files/nodejs/npm:*)",
+      "Bash(git remote:*)"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Box Weight",
+  "version": "1.0.0",
+  "url": "http://localhost:3003",
+  "description": "Track box weight for products",
+  "extensionPoints": [
+    {
+      "type": "product.detail.tabs",
+      "label": "Box Weight",
+      "path": "/product-weight",
+      "priority": 70
+    },
+    {
+      "type": "product.detail.info",
+      "label": "Box Weight",
+      "path": "/product-weight-badge",
+      "priority": 30
+    }
+  ]
+}
