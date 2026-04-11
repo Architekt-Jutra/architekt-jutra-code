@@ -3,13 +3,13 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-# --- Docker Compose ---
-echo "Ensuring docker-compose services are up..."
-if docker compose ps --status running 2>/dev/null | grep -q postgres; then
+# --- Podman Compose ---
+echo "Ensuring podman-compose services are up..."
+if podman compose ps 2>/dev/null | grep -q "Up"; then
   echo "  Services already running."
 else
-  docker compose up -d --wait
-  echo "  Postgres, LiteLLM, and Langfuse started."
+  podman compose up -d
+  echo "  Postgres started."
 fi
 
 # --- Cleanup on exit ---
