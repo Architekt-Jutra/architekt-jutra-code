@@ -14,6 +14,20 @@ vi.mock("../api/plugins", () => ({
   setPluginEnabled: vi.fn(),
 }));
 
+vi.mock("../auth/AuthContext", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../auth/AuthContext")>();
+  return {
+    ...actual,
+    useAuth: vi.fn(() => ({
+      token: "test-token",
+      username: "admin",
+      permissions: ["EDIT", "PLUGIN_MANAGEMENT"],
+      login: vi.fn(),
+      logout: vi.fn(),
+    })),
+  };
+});
+
 function renderWithProviders(ui: React.ReactElement, initialRoute = "/") {
   return render(
     <ChakraProvider value={system}>

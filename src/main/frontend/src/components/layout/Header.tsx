@@ -1,5 +1,6 @@
-import { Flex, IconButton, Text } from "@chakra-ui/react";
+import { Button, Flex, IconButton, Text } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 
 function MenuIcon() {
   return (
@@ -33,6 +34,7 @@ function getBreadcrumbs(pathname: string): string[] {
 export function Header({ onMenuOpen }: HeaderProps) {
   const location = useLocation();
   const breadcrumbs = getBreadcrumbs(location.pathname);
+  const { username, logout } = useAuth();
 
   return (
     <Flex
@@ -71,6 +73,16 @@ export function Header({ onMenuOpen }: HeaderProps) {
             </Text>
           </Flex>
         ))}
+      </Flex>
+      <Flex ml="auto" align="center" gap="12px">
+        {username && (
+          <Text fontSize="13px" color="#64748B">
+            {username}
+          </Text>
+        )}
+        <Button variant="ghost" size="sm" onClick={logout} aria-label="Logout">
+          Logout
+        </Button>
       </Flex>
     </Flex>
   );

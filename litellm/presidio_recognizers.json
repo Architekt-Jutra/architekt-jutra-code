@@ -1,0 +1,14 @@
+[
+  {
+    "name": "PESEL Recognizer",
+    "supported_language": "en",
+    "patterns": [
+      {
+        "name": "pesel_pattern",
+        "regex": "\\b\\d{11}\\b",
+        "score": 0.8
+      }
+    ],
+    "supported_entity": "PL_PESEL"
+  }
+]

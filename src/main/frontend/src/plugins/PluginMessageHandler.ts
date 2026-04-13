@@ -58,6 +58,9 @@ async function handlePluginFetch(
     throw new Error("pluginFetch only allows /api/ URLs");
   }
 
+  // Inject JWT token for authenticated plugin fetch requests
+  const token = localStorage.getItem("auth_token");
+
   // Req 11c: Strip security-sensitive options, add X-Requested-With
   const fetchOptions: RequestInit = {
     method,
@@ -65,6 +68,7 @@ async function handlePluginFetch(
     headers: {
       ...headers,
       "X-Requested-With": "PluginFetch",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   };
 
@@ -180,6 +184,18 @@ export function createMessageHandler(
     if (type === "filterChange") {
       options?.onFilterChange?.(pluginInfo.pluginId, payload);
       return; // No response sent
+    }
+
+    // Return the current user's JWT token to the plugin
+    if (type === "getToken") {
+      const token = localStorage.getItem("auth_token");
+      if (event.source) {
+        sendResponse(event.source, event.origin, {
+          responseId: requestId,
+          payload: token,
+        });
+      }
+      return;
     }
 
     // Route pluginFetch separately (different response format)

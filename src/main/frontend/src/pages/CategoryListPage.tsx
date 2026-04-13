@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useCategories } from "../hooks/useCategories";
 import { ConfirmDialog } from "../components/shared/ConfirmDialog";
 import { EmptyState } from "../components/shared/EmptyState";
+import { useAuth } from "../auth/AuthContext";
 import { formatDate } from "../utils/format";
 import { PrimaryButton } from "../components/shared/PrimaryButton";
 
@@ -20,6 +21,8 @@ function truncate(text: string | null, maxLength: number): string {
 }
 
 export function CategoryListPage() {
+  const { permissions } = useAuth();
+  const canEdit = permissions.includes("EDIT");
   const { data: categories, loading, error, remove } = useCategories();
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -62,9 +65,11 @@ export function CategoryListPage() {
             Organize products into categories
           </Text>
         </Box>
-        <PrimaryButton asChild>
-          <Link to="/categories/new">+ Add Category</Link>
-        </PrimaryButton>
+        {canEdit && (
+          <PrimaryButton asChild>
+            <Link to="/categories/new">+ Add Category</Link>
+          </PrimaryButton>
+        )}
       </Flex>
 
       {loading ? (
@@ -74,9 +79,11 @@ export function CategoryListPage() {
           title="No categories yet"
           description="Create your first category to organize products."
           action={
-            <PrimaryButton asChild>
-              <Link to="/categories/new">+ Add Category</Link>
-            </PrimaryButton>
+            canEdit ? (
+              <PrimaryButton asChild>
+                <Link to="/categories/new">+ Add Category</Link>
+              </PrimaryButton>
+            ) : undefined
           }
         />
       ) : (
@@ -111,17 +118,19 @@ export function CategoryListPage() {
                 >
                   Created
                 </Table.ColumnHeader>
-                <Table.ColumnHeader
-                  fontSize="12px"
-                  fontWeight="600"
-                  color="brand.600"
-                  textTransform="uppercase"
-                  letterSpacing="0.05em"
-                  textAlign="center"
-                  width="100px"
-                >
-                  Actions
-                </Table.ColumnHeader>
+                {canEdit && (
+                  <Table.ColumnHeader
+                    fontSize="12px"
+                    fontWeight="600"
+                    color="brand.600"
+                    textTransform="uppercase"
+                    letterSpacing="0.05em"
+                    textAlign="center"
+                    width="100px"
+                  >
+                    Actions
+                  </Table.ColumnHeader>
+                )}
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -136,22 +145,24 @@ export function CategoryListPage() {
                   <Table.Cell color="#64748B" fontSize="13px">
                     {formatDate(category.createdAt)}
                   </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <Flex gap="4px" justify="center">
-                      <Button asChild variant="ghost" size="sm" aria-label={`Edit ${category.name}`}>
-                        <Link to={`/categories/${category.id}/edit`}>Edit</Link>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        colorPalette="red"
-                        aria-label={`Delete ${category.name}`}
-                        onClick={() => setDeleteId(category.id)}
-                      >
-                        Delete
-                      </Button>
-                    </Flex>
-                  </Table.Cell>
+                  {canEdit && (
+                    <Table.Cell textAlign="center">
+                      <Flex gap="4px" justify="center">
+                        <Button asChild variant="ghost" size="sm" aria-label={`Edit ${category.name}`}>
+                          <Link to={`/categories/${category.id}/edit`}>Edit</Link>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          colorPalette="red"
+                          aria-label={`Delete ${category.name}`}
+                          onClick={() => setDeleteId(category.id)}
+                        >
+                          Delete
+                        </Button>
+                      </Flex>
+                    </Table.Cell>
+                  )}
                 </Table.Row>
               ))}
             </Table.Body>

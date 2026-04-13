@@ -6,10 +6,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 import { usePluginContext } from "../plugins/PluginContext";
 import { PrimaryButton } from "../components/shared/PrimaryButton";
 
 export function PluginListPage() {
+  const { permissions } = useAuth();
+  const canManagePlugins = permissions.includes("PLUGIN_MANAGEMENT");
   const { plugins, loading, error } = usePluginContext();
 
   if (error) {
@@ -31,9 +34,11 @@ export function PluginListPage() {
             Manage installed plugins
           </Text>
         </Box>
-        <PrimaryButton asChild>
-          <Link to="/plugins/new">+ Add Plugin</Link>
-        </PrimaryButton>
+        {canManagePlugins && (
+          <PrimaryButton asChild>
+            <Link to="/plugins/new">+ Add Plugin</Link>
+          </PrimaryButton>
+        )}
       </Flex>
 
       {loading ? (

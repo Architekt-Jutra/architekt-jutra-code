@@ -37,6 +37,8 @@ export interface PluginSDKType {
     getProduct(productId: string): Promise<unknown>;
     /** List all registered plugins. */
     getPlugins(): Promise<unknown[]>;
+    /** Get the current user's JWT token from the host. Use to authenticate plugin backend API calls. */
+    getToken(): Promise<string | null>;
     /** Raw fetch against the host API. Only /api/ paths allowed; credentials stripped; no path traversal. */
     fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: string }): Promise<{
       status: number;

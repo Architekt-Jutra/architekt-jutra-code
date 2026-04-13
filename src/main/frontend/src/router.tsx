@@ -9,19 +9,32 @@ import { PluginListPage } from "./pages/PluginListPage";
 import { PluginDetailPage } from "./pages/PluginDetailPage";
 import { PluginFormPage } from "./pages/PluginFormPage";
 import { PluginPageRoute } from "./pages/PluginPageRoute";
+import { LoginPage } from "./pages/LoginPage";
+import { AuthGuard } from "./auth/AuthGuard";
+import { PluginProvider } from "./plugins/PluginContext";
 
 function Layout() {
   return (
-    <AppShell>
-      <Outlet />
-    </AppShell>
+    <PluginProvider>
+      <AppShell>
+        <Outlet />
+      </AppShell>
+    </PluginProvider>
   );
 }
 
 export const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <AuthGuard requireAuth={false}><LoginPage /></AuthGuard>,
+  },
+  {
     path: "/",
-    element: <Layout />,
+    element: (
+      <AuthGuard>
+        <Layout />
+      </AuthGuard>
+    ),
     children: [
       { index: true, element: <Navigate to="/products" replace /> },
       { path: "products", element: <ProductListPage /> },

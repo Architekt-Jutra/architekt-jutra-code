@@ -18,6 +18,7 @@ import { ConfirmDialog } from "../components/shared/ConfirmDialog";
 import { EmptyState } from "../components/shared/EmptyState";
 import { PhotoPlaceholder } from "../components/shared/Icons";
 import { PrimaryButton } from "../components/shared/PrimaryButton";
+import { useAuth } from "../auth/AuthContext";
 import { formatDate } from "../utils/format";
 import { isValidImageUrl } from "../utils/url";
 
@@ -40,6 +41,8 @@ function getCategoryColor(name: string): string {
 }
 
 export function ProductListPage() {
+  const { permissions } = useAuth();
+  const canEdit = permissions.includes("EDIT");
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<number | undefined>(undefined);
@@ -109,9 +112,11 @@ export function ProductListPage() {
             Manage your product catalog
           </Text>
         </Box>
-        <PrimaryButton asChild>
-          <Link to="/products/new">+ Add Product</Link>
-        </PrimaryButton>
+        {canEdit && (
+          <PrimaryButton asChild>
+            <Link to="/products/new">+ Add Product</Link>
+          </PrimaryButton>
+        )}
       </Flex>
 
       <Flex gap="12px" mb="20px" align="center">
@@ -176,9 +181,11 @@ export function ProductListPage() {
           title="No products found"
           description="Create your first product or adjust your filters."
           action={
-            <PrimaryButton asChild>
-              <Link to="/products/new">+ Add Product</Link>
-            </PrimaryButton>
+            canEdit ? (
+              <PrimaryButton asChild>
+                <Link to="/products/new">+ Add Product</Link>
+              </PrimaryButton>
+            ) : undefined
           }
         />
       ) : (
@@ -247,16 +254,18 @@ export function ProductListPage() {
                 >
                   Created {sortField === "createdAt" ? "^" : ""}
                 </Table.ColumnHeader>
-                <Table.ColumnHeader
-                  fontSize="12px"
-                  fontWeight="600"
-                  color="brand.500"
-                  textTransform="uppercase"
-                  letterSpacing="0.05em"
-                  width="120px"
-                >
-                  Actions
-                </Table.ColumnHeader>
+                {canEdit && (
+                  <Table.ColumnHeader
+                    fontSize="12px"
+                    fontWeight="600"
+                    color="brand.500"
+                    textTransform="uppercase"
+                    letterSpacing="0.05em"
+                    width="120px"
+                  >
+                    Actions
+                  </Table.ColumnHeader>
+                )}
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -316,30 +325,32 @@ export function ProductListPage() {
                     <Table.Cell color="#64748B" fontSize="13px">
                       {formatDate(product.createdAt)}
                     </Table.Cell>
-                    <Table.Cell>
-                      <Flex gap="8px">
-                        <Button
-                          asChild
-                          variant="ghost"
-                          size="sm"
-                          color="#334155"
-                          fontWeight="500"
-                          aria-label={`Edit ${product.name}`}
-                        >
-                          <Link to={`/products/${product.id}/edit`}>Edit</Link>
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          color="#DC2626"
-                          fontWeight="500"
-                          aria-label={`Delete ${product.name}`}
-                          onClick={() => setDeleteId(product.id)}
-                        >
-                          Delete
-                        </Button>
-                      </Flex>
-                    </Table.Cell>
+                    {canEdit && (
+                      <Table.Cell>
+                        <Flex gap="8px">
+                          <Button
+                            asChild
+                            variant="ghost"
+                            size="sm"
+                            color="#334155"
+                            fontWeight="500"
+                            aria-label={`Edit ${product.name}`}
+                          >
+                            <Link to={`/products/${product.id}/edit`}>Edit</Link>
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            color="#DC2626"
+                            fontWeight="500"
+                            aria-label={`Delete ${product.name}`}
+                            onClick={() => setDeleteId(product.id)}
+                          >
+                            Delete
+                          </Button>
+                        </Flex>
+                      </Table.Cell>
+                    )}
                   </Table.Row>
                 );
               })}

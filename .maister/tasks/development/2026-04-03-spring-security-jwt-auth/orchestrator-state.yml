@@ -1,0 +1,65 @@
+orchestrator:
+  started_phase: phase-1
+  completed_phases: [phase-1, phase-2, phase-5, phase-6, phase-7, phase-8, phase-10, phase-11]
+  failed_phases: []
+  auto_fix_attempts:
+    phase-1: 0
+    phase-2: 0
+    phase-3: 0
+    phase-5: 0
+    phase-7: 0
+    phase-8: 0
+    phase-9: 0
+    phase-11: 0
+  options:
+    spec_audit_enabled: true
+    skip_test_suite: true
+    e2e_enabled: true
+    user_docs_enabled: true
+    code_review_enabled: true
+    pragmatic_review_enabled: true
+    reality_check_enabled: true
+    production_check_enabled: true
+    skip_test_suite: true
+  task_path: .maister/tasks/development/2026-04-03-spring-security-jwt-auth
+  task_ids: {}
+  created: "2026-04-03T00:00:00Z"
+  updated: "2026-04-03T00:00:00Z"
+  task_context:
+    risk_level: high
+    clarifications_resolved: true
+    scope_expanded: false
+    architecture_decision: "Independent permissions with join table, 24h JWT no refresh, inherit user JWT for plugins, BCrypt in migration, React Context for auth state, hide unauthorized UI elements"
+    task_characteristics:
+      has_reproducible_defect: false
+      modifies_existing_code: true
+      creates_new_entities: true
+      involves_data_operations: true
+      ui_heavy: true
+    research_reference:
+      path: null
+      research_question: null
+      research_type: null
+      confidence_level: null
+    phase_summaries:
+      research: {summary: null, key_findings: [], recommended_approach: null}
+      codebase_analysis: {key_files: [ProductController.java, CategoryController.java, PluginController.java, PluginObjectController.java, PluginDataController.java, GlobalExceptionHandler.java, BaseEntity.java, pom.xml], primary_language: java, summary: "Spring Boot 4.0.5 plugin platform with zero existing security. 5 controllers, 16 test files, plugin SDK all need security integration. Well-structured codebase with consistent patterns."}
+      clarifications: ["Admin-seeded users only, no registration", "Full stack plugin auth with JWT propagation", "Update all 16 existing tests in this task", "Include login UI in React SPA"]
+      gap_analysis: {integration_points: [pom.xml, SecurityFilterChain, JwtAuthenticationFilter, GlobalExceptionHandler, Liquibase-008, AuthController, frontend-auth, plugin-sdk], summary: "Greenfield security implementation touching every layer. ~10-12 new files, ~20+ modified files. 3 critical decisions needed: role model, token refresh, plugin auth."}
+      scope_clarifications: {scope_expanded: null, summary: null}
+      ui_mockups: {components_designed: [], summary: null}
+      specification: {summary: "16 core requirements covering backend security (SecurityFilterChain, JWT, User entity with @ElementCollection permissions), frontend (LoginPage, AuthContext, role-based UI), plugin SDK (handlePluginFetch JWT injection, server-sdk token param), test updates (all 16 files + new auth tests). 18 reusable components, 13 new components."}
+      architecture_decision: {decision: null, summary: null}
+  verification_context:
+    last_status: null
+    issues_found: []
+    fixes_applied: []
+    decisions_made: []
+    reverify_count: 0
+
+task:
+  title: "Add Spring Security with JWT Authentication"
+  description: "Add security to the app using spring-security. Issue JWT tokens for logged users containing permissions: READ (read data), EDIT (read + edit data), and PLUGIN_MANAGEMENT. The token should encode these permissions so the app can enforce role-based access control."
+  status: in_progress
+  tags: [security, authentication, jwt, spring-security]
+  priority: high

@@ -1,0 +1,151 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-create-user-seq
+      author: aj
+      changes:
+        - createSequence:
+            sequenceName: user_seq
+            startValue: 1
+            incrementBy: 1
+      rollback:
+        - dropSequence:
+            sequenceName: user_seq
+
+  - changeSet:
+      id: 008-create-users-table
+      author: aj
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password_hash
+                  type: VARCHAR(72)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: users
+            columnNames: username
+            constraintName: uk_users_username
+      rollback:
+        - dropTable:
+            tableName: users
+
+  - changeSet:
+      id: 008-create-user-permissions-table
+      author: aj
+      changes:
+        - createTable:
+            tableName: user_permissions
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: permission
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: user_permissions
+            columnNames: user_id, permission
+            constraintName: pk_user_permissions
+        - addForeignKeyConstraint:
+            baseTableName: user_permissions
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_user_permissions_user_id
+            onDelete: CASCADE
+      rollback:
+        - dropTable:
+            tableName: user_permissions
+
+  - changeSet:
+      id: 008-seed-users
+      author: aj
+      context: dev
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: id, valueSequenceNext: user_seq }
+              - column: { name: username, value: "viewer" }
+              - column: { name: password_hash, value: "$2b$10$pFtf9GpDPxg5LFpJQzaPTupktdcoZ19j7RFIfxwwEEE8On2jXW0Ie" }
+              - column: { name: created_at, valueDate: "now()" }
+              - column: { name: updated_at, valueDate: "now()" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: id, valueSequenceNext: user_seq }
+              - column: { name: username, value: "editor" }
+              - column: { name: password_hash, value: "$2b$10$L3aaFyIeCFm9GuTkmEOIW.ugjJWWp8oHwC67BReVpSQyCzN8KAxqu" }
+              - column: { name: created_at, valueDate: "now()" }
+              - column: { name: updated_at, valueDate: "now()" }
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: id, valueSequenceNext: user_seq }
+              - column: { name: username, value: "admin" }
+              - column: { name: password_hash, value: "$2b$10$ZOxSKoTFDBfoGi6GCkRuZuKInCADEKJfpyOQQSkgJjOZpPgWLNUqO" }
+              - column: { name: created_at, valueDate: "now()" }
+              - column: { name: updated_at, valueDate: "now()" }
+        - insert:
+            tableName: user_permissions
+            columns:
+              - column: { name: user_id, valueComputed: "(SELECT id FROM users WHERE username = 'viewer')" }
+              - column: { name: permission, value: "READ" }
+        - insert:
+            tableName: user_permissions
+            columns:
+              - column: { name: user_id, valueComputed: "(SELECT id FROM users WHERE username = 'editor')" }
+              - column: { name: permission, value: "READ" }
+        - insert:
+            tableName: user_permissions
+            columns:
+              - column: { name: user_id, valueComputed: "(SELECT id FROM users WHERE username = 'editor')" }
+              - column: { name: permission, value: "EDIT" }
+        - insert:
+            tableName: user_permissions
+            columns:
+              - column: { name: user_id, valueComputed: "(SELECT id FROM users WHERE username = 'admin')" }
+              - column: { name: permission, value: "READ" }
+        - insert:
+            tableName: user_permissions
+            columns:
+              - column: { name: user_id, valueComputed: "(SELECT id FROM users WHERE username = 'admin')" }
+              - column: { name: permission, value: "EDIT" }
+        - insert:
+            tableName: user_permissions
+            columns:
+              - column: { name: user_id, valueComputed: "(SELECT id FROM users WHERE username = 'admin')" }
+              - column: { name: permission, value: "PLUGIN_MANAGEMENT" }
+      rollback:
+        - delete:
+            tableName: user_permissions
+        - delete:
+            tableName: users
+            where: username IN ('viewer', 'editor', 'admin')

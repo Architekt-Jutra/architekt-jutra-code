@@ -1,0 +1,187 @@
+- generic [ref=e17]:
+  - complementary [ref=e18]:
+    - paragraph [ref=e19]: TomorrowCommerce
+    - navigation "Main navigation" [ref=e20]:
+      - link "Products" [ref=e21] [cursor=pointer]:
+        - /url: /products
+        - img [ref=e22]
+        - text: Products
+      - link "Categories" [ref=e26] [cursor=pointer]:
+        - /url: /categories
+        - img [ref=e27]
+        - text: Categories
+  - generic [ref=e30]:
+    - banner [ref=e31]:
+      - navigation "Breadcrumb" [ref=e32]:
+        - paragraph [ref=e34]: Products
+      - generic [ref=e35]:
+        - paragraph [ref=e36]: viewer
+        - button "Logout" [ref=e37] [cursor=pointer]
+    - main [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e41]:
+          - heading "Products" [level=1] [ref=e42]
+          - paragraph [ref=e43]: Manage your product catalog
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - img [ref=e46]
+            - textbox "Search products..." [ref=e49]
+          - combobox "Filter by category" [ref=e50]:
+            - option "All Categories" [selected]
+            - option "Televisions"
+            - option "Audio Systems"
+            - option "Smart Home"
+            - option "Networking"
+            - option "Home Appliances"
+        - generic [ref=e51]:
+          - table [ref=e52]:
+            - rowgroup [ref=e53]:
+              - row "Photo Name SKU Price Category Created" [ref=e54]:
+                - columnheader "Photo" [ref=e55]
+                - columnheader "Name" [ref=e56] [cursor=pointer]
+                - columnheader "SKU" [ref=e57]
+                - columnheader "Price" [ref=e58] [cursor=pointer]
+                - columnheader "Category" [ref=e59]
+                - columnheader "Created" [ref=e60] [cursor=pointer]
+            - rowgroup [ref=e61]:
+              - row "Sony Bravia 7 75\" Mini LED 4K Smart TV Sony Bravia 7 75\" Mini LED 4K Smart TV TV-SNY-BR7-75 $2199.99 Televisions Apr 3, 2026" [ref=e62]:
+                - cell "Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e63]:
+                  - img "Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e65]
+                - cell "Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e66]:
+                  - link "Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e67] [cursor=pointer]:
+                    - /url: /products/3
+                - cell "TV-SNY-BR7-75" [ref=e68]
+                - cell "$2199.99" [ref=e69]
+                - cell "Televisions" [ref=e70]
+                - cell "Apr 3, 2026" [ref=e71]
+              - row "Samsung 55\" S90D OLED 4K Smart TV Samsung 55\" S90D OLED 4K Smart TV TV-SAM-S90D-55 $1299.99 Televisions Apr 3, 2026" [ref=e72]:
+                - cell "Samsung 55\" S90D OLED 4K Smart TV" [ref=e73]:
+                  - img "Samsung 55\" S90D OLED 4K Smart TV" [ref=e75]
+                - cell "Samsung 55\" S90D OLED 4K Smart TV" [ref=e76]:
+                  - link "Samsung 55\" S90D OLED 4K Smart TV" [ref=e77] [cursor=pointer]:
+                    - /url: /products/2
+                - cell "TV-SAM-S90D-55" [ref=e78]
+                - cell "$1299.99" [ref=e79]
+                - cell "Televisions" [ref=e80]
+                - cell "Apr 3, 2026" [ref=e81]
+              - row "LG C4 65\" OLED evo 4K Smart TV LG C4 65\" OLED evo 4K Smart TV TV-LG-C4-65 $1799.99 Televisions Apr 3, 2026" [ref=e82]:
+                - cell "LG C4 65\" OLED evo 4K Smart TV" [ref=e83]:
+                  - img "LG C4 65\" OLED evo 4K Smart TV" [ref=e85]
+                - cell "LG C4 65\" OLED evo 4K Smart TV" [ref=e86]:
+                  - link "LG C4 65\" OLED evo 4K Smart TV" [ref=e87] [cursor=pointer]:
+                    - /url: /products/1
+                - cell "TV-LG-C4-65" [ref=e88]
+                - cell "$1799.99" [ref=e89]
+                - cell "Televisions" [ref=e90]
+                - cell "Apr 3, 2026" [ref=e91]
+              - row "KEF LS50 Wireless II Bookshelf Speakers KEF LS50 Wireless II Bookshelf Speakers AUD-KEF-LS50W2 $2499.99 Audio Systems Apr 3, 2026" [ref=e92]:
+                - cell "KEF LS50 Wireless II Bookshelf Speakers" [ref=e93]:
+                  - img "KEF LS50 Wireless II Bookshelf Speakers" [ref=e95]
+                - cell "KEF LS50 Wireless II Bookshelf Speakers" [ref=e96]:
+                  - link "KEF LS50 Wireless II Bookshelf Speakers" [ref=e97] [cursor=pointer]:
+                    - /url: /products/6
+                - cell "AUD-KEF-LS50W2" [ref=e98]
+                - cell "$2499.99" [ref=e99]
+                - cell "Audio Systems" [ref=e100]
+                - cell "Apr 3, 2026" [ref=e101]
+              - row "Bose Smart Soundbar 700 Bose Smart Soundbar 700 AUD-BOSE-SB700 $799.00 Audio Systems Apr 3, 2026" [ref=e102]:
+                - cell "Bose Smart Soundbar 700" [ref=e103]:
+                  - img "Bose Smart Soundbar 700" [ref=e105]
+                - cell "Bose Smart Soundbar 700" [ref=e106]:
+                  - link "Bose Smart Soundbar 700" [ref=e107] [cursor=pointer]:
+                    - /url: /products/5
+                - cell "AUD-BOSE-SB700" [ref=e108]
+                - cell "$799.00" [ref=e109]
+                - cell "Audio Systems" [ref=e110]
+                - cell "Apr 3, 2026" [ref=e111]
+              - row "Sonos Arc Soundbar Sonos Arc Soundbar AUD-SNS-ARC $899.00 Audio Systems Apr 3, 2026" [ref=e112]:
+                - cell "Sonos Arc Soundbar" [ref=e113]:
+                  - img "Sonos Arc Soundbar" [ref=e115]
+                - cell "Sonos Arc Soundbar" [ref=e116]:
+                  - link "Sonos Arc Soundbar" [ref=e117] [cursor=pointer]:
+                    - /url: /products/4
+                - cell "AUD-SNS-ARC" [ref=e118]
+                - cell "$899.00" [ref=e119]
+                - cell "Audio Systems" [ref=e120]
+                - cell "Apr 3, 2026" [ref=e121]
+              - row "Google Nest Learning Thermostat 4th Gen Google Nest Learning Thermostat 4th Gen SH-GOOG-NEST4 $279.99 Smart Home Apr 3, 2026" [ref=e122]:
+                - cell "Google Nest Learning Thermostat 4th Gen" [ref=e123]:
+                  - img "Google Nest Learning Thermostat 4th Gen" [ref=e125]
+                - cell "Google Nest Learning Thermostat 4th Gen" [ref=e126]:
+                  - link "Google Nest Learning Thermostat 4th Gen" [ref=e127] [cursor=pointer]:
+                    - /url: /products/9
+                - cell "SH-GOOG-NEST4" [ref=e128]
+                - cell "$279.99" [ref=e129]
+                - cell "Smart Home" [ref=e130]
+                - cell "Apr 3, 2026" [ref=e131]
+              - row "Philips Hue Starter Kit E26 Philips Hue Starter Kit E26 SH-PHI-HUE-SK $179.99 Smart Home Apr 3, 2026" [ref=e132]:
+                - cell "Philips Hue Starter Kit E26" [ref=e133]:
+                  - img "Philips Hue Starter Kit E26" [ref=e135]
+                - cell "Philips Hue Starter Kit E26" [ref=e136]:
+                  - link "Philips Hue Starter Kit E26" [ref=e137] [cursor=pointer]:
+                    - /url: /products/8
+                - cell "SH-PHI-HUE-SK" [ref=e138]
+                - cell "$179.99" [ref=e139]
+                - cell "Smart Home" [ref=e140]
+                - cell "Apr 3, 2026" [ref=e141]
+              - row "Amazon Echo Hub 8\" Smart Home Control Panel Amazon Echo Hub 8\" Smart Home Control Panel SH-AMZ-ECHOHUB $179.99 Smart Home Apr 3, 2026" [ref=e142]:
+                - cell "Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e143]:
+                  - img "Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e145]
+                - cell "Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e146]:
+                  - link "Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e147] [cursor=pointer]:
+                    - /url: /products/7
+                - cell "SH-AMZ-ECHOHUB" [ref=e148]
+                - cell "$179.99" [ref=e149]
+                - cell "Smart Home" [ref=e150]
+                - cell "Apr 3, 2026" [ref=e151]
+              - row "eero Pro 6E Mesh Wi-Fi System (3-Pack) eero Pro 6E Mesh Wi-Fi System (3-Pack) NET-EERO-PRO6E-3 $499.99 Networking Apr 3, 2026" [ref=e152]:
+                - cell "eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e153]:
+                  - img "eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e155]
+                - cell "eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e156]:
+                  - link "eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e157] [cursor=pointer]:
+                    - /url: /products/11
+                - cell "NET-EERO-PRO6E-3" [ref=e158]
+                - cell "$499.99" [ref=e159]
+                - cell "Networking" [ref=e160]
+                - cell "Apr 3, 2026" [ref=e161]
+              - row "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router NET-ASUS-AXE7800 $299.99 Networking Apr 3, 2026" [ref=e162]:
+                - cell "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e163]:
+                  - img "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e165]
+                - cell "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e166]:
+                  - link "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e167] [cursor=pointer]:
+                    - /url: /products/10
+                - cell "NET-ASUS-AXE7800" [ref=e168]
+                - cell "$299.99" [ref=e169]
+                - cell "Networking" [ref=e170]
+                - cell "Apr 3, 2026" [ref=e171]
+              - row "Breville Barista Touch Impress Espresso Machine Breville Barista Touch Impress Espresso Machine HA-BRV-BTI $1099.95 Home Appliances Apr 3, 2026" [ref=e172]:
+                - cell "Breville Barista Touch Impress Espresso Machine" [ref=e173]:
+                  - img "Breville Barista Touch Impress Espresso Machine" [ref=e175]
+                - cell "Breville Barista Touch Impress Espresso Machine" [ref=e176]:
+                  - link "Breville Barista Touch Impress Espresso Machine" [ref=e177] [cursor=pointer]:
+                    - /url: /products/14
+                - cell "HA-BRV-BTI" [ref=e178]
+                - cell "$1099.95" [ref=e179]
+                - cell "Home Appliances" [ref=e180]
+                - cell "Apr 3, 2026" [ref=e181]
+              - row "Dyson Purifier Hot+Cool HP07 Dyson Purifier Hot+Cool HP07 HA-DYS-HP07 $649.99 Home Appliances Apr 3, 2026" [ref=e182]:
+                - cell "Dyson Purifier Hot+Cool HP07" [ref=e183]:
+                  - img "Dyson Purifier Hot+Cool HP07" [ref=e185]
+                - cell "Dyson Purifier Hot+Cool HP07" [ref=e186]:
+                  - link "Dyson Purifier Hot+Cool HP07" [ref=e187] [cursor=pointer]:
+                    - /url: /products/13
+                - cell "HA-DYS-HP07" [ref=e188]
+                - cell "$649.99" [ref=e189]
+                - cell "Home Appliances" [ref=e190]
+                - cell "Apr 3, 2026" [ref=e191]
+              - row "iRobot Roomba j9+ Self-Emptying Robot Vacuum iRobot Roomba j9+ Self-Emptying Robot Vacuum HA-IRB-J9PLUS $799.99 Home Appliances Apr 3, 2026" [ref=e192]:
+                - cell "iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e193]:
+                  - img "iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e195]
+                - cell "iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e196]:
+                  - link "iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e197] [cursor=pointer]:
+                    - /url: /products/12
+                - cell "HA-IRB-J9PLUS" [ref=e198]
+                - cell "$799.99" [ref=e199]
+                - cell "Home Appliances" [ref=e200]
+                - cell "Apr 3, 2026" [ref=e201]
+          - generic [ref=e202]: Showing 14 products

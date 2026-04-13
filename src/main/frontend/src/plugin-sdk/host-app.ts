@@ -18,6 +18,10 @@ export const hostApp = {
     return sendMessageAndWait("getPlugins", {}, getHostOrigin()) as Promise<unknown[]>;
   },
 
+  getToken(): Promise<string | null> {
+    return sendMessageAndWait("getToken", {}, getHostOrigin()) as Promise<string | null>;
+  },
+
   fetch(url: string, options?: { method?: string; headers?: Record<string, string>; body?: string }): Promise<{
     status: number;
     headers: Record<string, string>;

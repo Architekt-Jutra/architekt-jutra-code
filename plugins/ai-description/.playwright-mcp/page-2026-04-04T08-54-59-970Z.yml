@@ -1,0 +1,54 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - paragraph [ref=e5]: TomorrowCommerce
+    - navigation "Main navigation" [ref=e6]:
+      - link "Products" [ref=e7] [cursor=pointer]:
+        - /url: /products
+        - img [ref=e8]
+        - text: Products
+      - link "Categories" [active] [ref=e12] [cursor=pointer]:
+        - /url: /categories
+        - img [ref=e13]
+        - text: Categories
+  - generic [ref=e16]:
+    - banner [ref=e17]:
+      - navigation "Breadcrumb" [ref=e18]:
+        - paragraph [ref=e190]: Categories
+      - generic [ref=e21]:
+        - paragraph [ref=e22]: viewer
+        - button "Logout" [ref=e23] [cursor=pointer]
+    - main [ref=e24]:
+      - generic [ref=e191]:
+        - generic [ref=e193]:
+          - heading "Categories" [level=1] [ref=e194]
+          - paragraph [ref=e195]: Organize products into categories
+        - generic [ref=e196]:
+          - table [ref=e197]:
+            - rowgroup [ref=e198]:
+              - row "Name Description Created" [ref=e199]:
+                - columnheader "Name" [ref=e200]
+                - columnheader "Description" [ref=e201]
+                - columnheader "Created" [ref=e202]
+            - rowgroup [ref=e203]:
+              - row "Televisions Smart TVs, OLED, QLED, and LED displays for home entertainme... Apr 3, 2026" [ref=e204]:
+                - cell "Televisions" [ref=e205]
+                - cell "Smart TVs, OLED, QLED, and LED displays for home entertainme..." [ref=e206]
+                - cell "Apr 3, 2026" [ref=e207]
+              - row "Audio Systems Soundbars, speakers, and home theater audio equipment Apr 3, 2026" [ref=e208]:
+                - cell "Audio Systems" [ref=e209]
+                - cell "Soundbars, speakers, and home theater audio equipment" [ref=e210]
+                - cell "Apr 3, 2026" [ref=e211]
+              - row "Smart Home Smart assistants, hubs, sensors, and connected home devices Apr 3, 2026" [ref=e212]:
+                - cell "Smart Home" [ref=e213]
+                - cell "Smart assistants, hubs, sensors, and connected home devices" [ref=e214]
+                - cell "Apr 3, 2026" [ref=e215]
+              - row "Networking Routers, mesh systems, range extenders, and network switches Apr 3, 2026" [ref=e216]:
+                - cell "Networking" [ref=e217]
+                - cell "Routers, mesh systems, range extenders, and network switches" [ref=e218]
+                - cell "Apr 3, 2026" [ref=e219]
+              - row "Home Appliances Robot vacuums, air purifiers, and smart kitchen appliances Apr 3, 2026" [ref=e220]:
+                - cell "Home Appliances" [ref=e221]
+                - cell "Robot vacuums, air purifiers, and smart kitchen appliances" [ref=e222]
+                - cell "Apr 3, 2026" [ref=e223]
+          - generic [ref=e224]: Showing 5 categories
+        - generic [ref=e225]: Categories with products cannot be deleted. Reassign products first.

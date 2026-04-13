@@ -4,14 +4,14 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import { system } from "./theme";
-import { PluginProvider } from "./plugins/PluginContext";
+import { AuthProvider } from "./auth/AuthContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ChakraProvider value={system}>
-      <PluginProvider>
+      <AuthProvider>
         <RouterProvider router={router} />
-      </PluginProvider>
+      </AuthProvider>
     </ChakraProvider>
   </StrictMode>,
 );
