@@ -5,11 +5,11 @@ cd "$(dirname "$0")"
 
 # --- Docker Compose ---
 echo "Ensuring docker-compose services are up..."
-if docker compose ps --status running 2>/dev/null | grep -q postgres; then
+if podman ps --filter status=running 2>/dev/null | grep -q postgres; then
   echo "  Services already running."
 else
-  docker compose up -d --wait
-  echo "  Postgres, LiteLLM, and Langfuse started."
+  podman compose up -d --wait
+  echo "  Postgres started."
 fi
 
 # --- Cleanup on exit ---

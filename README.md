@@ -16,7 +16,7 @@ The core application acts as a lightweight host that manages plugin lifecycle, s
 ├── plugins/                    # Independent plugin modules
 │   ├── warehouse/              # Warehouse management plugin (Vite + TS)
 │   └── box-size/               # Box size calculator plugin (Vite + TS)
-├── compose.yml                 # Docker Compose (PostgreSQL 18)
+├── compose.yml                 # Podman/Docker Compose (PostgreSQL 18)
 ├── start-dev.sh                # Single script to run everything locally
 └── .maister/                   # AI-assisted development artifacts
 ```
@@ -49,7 +49,7 @@ The coding standards and conventions discovered/defined during the project live 
 ### Prerequisites
 
 - Java 25+
-- Docker (for PostgreSQL)
+- Podman Desktop (for PostgreSQL)
 - Node.js (for plugins)
 
 ### Quick Start
@@ -64,7 +64,7 @@ The coding standards and conventions discovered/defined during the project live 
 ```
 
 The `start-dev.sh` script will:
-1. Start PostgreSQL via Docker Compose (or reuse if already running)
+1. Start PostgreSQL via Podman Compose (or reuse if already running)
 2. Start the Spring Boot host application
 3. Start all plugins that have a `package.json`
 
@@ -76,7 +76,7 @@ If you prefer to start services individually:
 
 ```bash
 # 1. Start PostgreSQL
-docker compose up -d
+podman compose up -d
 
 # 2. Start the host app
 ./mvnw spring-boot:run

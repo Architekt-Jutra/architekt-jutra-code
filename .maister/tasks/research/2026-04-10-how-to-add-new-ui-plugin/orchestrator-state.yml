@@ -1,0 +1,61 @@
+orchestrator:
+  started_phase: phase-1
+  completed_phases: [phase-1, phase-2]
+  failed_phases: []
+  auto_fix_attempts:
+    phase-1: 0
+    phase-2: 0
+    phase-3: 0
+    phase-4: 0
+    phase-5: 0
+    phase-6: 0
+  options:
+    brainstorming_enabled: false
+    design_enabled: false
+  created: "2026-04-10T00:00:00Z"
+  updated: "2026-04-11T00:00:00Z"
+  task_path: ".maister/tasks/research/2026-04-10-how-to-add-new-ui-plugin"
+  task_ids: {}
+
+task:
+  title: "How to add a new UI plugin?"
+  description: "Research how to add a new UI plugin to the aj platform"
+  status: completed
+  tags: [research, plugin, ui, frontend]
+  priority: null
+
+research_context:
+  research_type: technical
+  research_question: "How to add a new UI plugin to the aj platform?"
+  scope:
+    included:
+      - Plugin system architecture (frontend)
+      - Plugin SDK and registration mechanism
+      - Existing plugin examples
+      - Frontend router integration
+      - Plugin component structure
+    excluded: []
+    constraints: []
+  methodology: []
+  sources: []
+  confidence_level: high
+  gathering_strategy:
+    categories: [codebase, documentation, configuration, external]
+    count: 4
+    source: planner
+  phase_summaries:
+    phase-1:
+      summary: "Analyzed the aj platform's plugin system through 4 parallel information-gathering agents covering the codebase, documentation, configuration, and external sources. Found a single canonical micro-frontend pattern: plugins are standalone web apps loaded via sandboxed iframes, registered via a single PUT /api/plugins/{id}/manifest call, and communicate with the host through a postMessage-based SDK."
+      steps_completed: [initialize, plan, gather, synthesize]
+    phase-2:
+      summary: "User chose to skip both brainstorming (single canonical approach found, no competing alternatives) and design (research report already contains architecture diagram and step-by-step guide)."
+    phase-3:
+      summary: null
+    phase-4:
+      summary: null
+      decision_areas: []
+      deferred_ideas: []
+    phase-5:
+      summary: null
+      architecture_style: null
+      decisions_count: 0

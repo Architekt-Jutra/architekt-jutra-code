@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "C:/source/maister/plugins/maister-copilot/skills/development/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/research/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/performance/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/migration/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/product-design/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/quick-bugfix/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/implementation-verifier/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/implementation-plan-executor/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/codebase-analyzer/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/standards-discover/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/standards-update/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/init/SKILL.md",
+    "C:/source/maister/plugins/maister-copilot/skills/orchestrator-framework/SKILL.md"
+  ]
+}

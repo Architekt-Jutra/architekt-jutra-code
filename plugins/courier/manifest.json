@@ -1,0 +1,21 @@
+{
+  "name": "Courier",
+  "version": "1.0.0",
+  "url": "http://localhost:3003",
+  "description": "Track product orders, manage delivery status and method",
+  "extensionPoints": [
+    {
+      "type": "menu.main",
+      "label": "Courier",
+      "icon": "truck",
+      "path": "/",
+      "priority": 110
+    },
+    {
+      "type": "product.detail.tabs",
+      "label": "Delivery",
+      "path": "/product-delivery",
+      "priority": 55
+    }
+  ]
+}

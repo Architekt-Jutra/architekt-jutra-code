@@ -1,0 +1,80 @@
+orchestrator:
+  started_phase: phase-1
+  completed_phases: [phase-1, phase-2, phase-5, phase-7, phase-8, phase-11, phase-14]
+  failed_phases: []
+  auto_fix_attempts:
+    phase-1: 0
+    phase-2: 0
+    phase-3: 0
+    phase-4: 0
+    phase-5: 0
+    phase-6: 0
+    phase-7: 0
+    phase-8: 0
+    phase-9: 0
+    phase-10: 0
+    phase-11: 0
+    phase-14: 0
+  options:
+    spec_audit_enabled: null
+    skip_test_suite: true
+    e2e_enabled: null
+    user_docs_enabled: null
+    code_review_enabled: true
+    pragmatic_review_enabled: true
+    reality_check_enabled: true
+    production_check_enabled: true
+  created: "2026-04-12T00:00:00Z"
+  updated: "2026-04-12T00:00:00Z"
+  task_path: ".maister/tasks/development/2026-04-12-courier-plugin"
+  task_ids: {}
+
+task:
+  title: "Courier Plugin — order tracking, status management, delivery method"
+  description: "Implement a new frontend plugin that provides courier functionality: store order number, change status of the order for a given product, and configure how the product will be delivered (parcel locker or delivery man) based on package box size."
+  status: completed
+  tags: [frontend, plugin, courier, delivery]
+  priority: high
+
+task_context:
+  risk_level: null
+  clarifications_resolved: null
+  scope_expanded: null
+  architecture_decision: null
+  tech_clarified: null
+  task_characteristics:
+    has_reproducible_defect: false
+    modifies_existing_code: false
+    creates_new_entities: false
+    involves_data_operations: true
+    ui_heavy: true
+  research_reference:
+    path: ".maister/tasks/research/2026-04-10-how-to-add-new-ui-plugin"
+    research_question: "How to add a new UI plugin to the aj platform?"
+    research_type: technical
+    confidence_level: high
+  phase_summaries:
+    research:
+      summary: "The aj platform uses a micro-frontend plugin model: plugins are standalone web apps loaded via sandboxed iframes, registered via PUT /api/plugins/{id}/manifest. The Plugin SDK (window.PluginSDK) is loaded from the host and provides thisPlugin (context, data, objects) and hostApp (products, fetch) APIs via postMessage. Key extension points: menu.main (sidebar), product.detail.tabs (600px tab), product.detail.info (60px strip), product.list.filters. Data storage: per-product JSON blob or structured plugin objects. Critical known gap: PluginDescriptor.java missing Lombok annotations blocks all data APIs."
+      key_findings:
+        - "Plugin registration via PUT /api/plugins/{id}/manifest (upsert)"
+        - "SDK loaded from host: <script src='http://localhost:8080/assets/plugin-sdk.js'>"
+        - "Context injected via window.name (iframe.name set before iframe.src)"
+        - "thisPlugin.objects.* API for structured multi-record storage"
+        - "PluginDescriptor.java missing @Getter @Setter @NoArgsConstructor — must fix first"
+      recommended_approach: "Build React/TypeScript plugin app, fix PluginDescriptor.java Lombok gap, register via manifest API"
+    codebase_analysis: {key_files: [], primary_language: null, summary: null}
+    clarifications: []
+    gap_analysis: {integration_points: [], summary: null}
+    scope_clarifications: {scope_expanded: null, summary: null}
+    ui_mockups: {components_designed: [], summary: null}
+    specification: {summary: null}
+    architecture_decision: {decision: null, summary: null}
+    implementation: {summary: null}
+
+verification_context:
+  last_status: null
+  issues_found: null
+  fixes_applied: []
+  decisions_made: []
+  reverify_count: 0
