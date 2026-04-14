@@ -1,0 +1,82 @@
+orchestrator:
+  started_phase: phase-2
+  completed_phases: [phase-1, phase-2, phase-5, phase-6, phase-7, phase-8, phase-10, phase-11, phase-14]
+  failed_phases: []
+  auto_fix_attempts:
+    phase-1: 0
+    phase-2: 0
+    phase-5: 0
+    phase-6: 0
+    phase-7: 0
+    phase-8: 0
+    phase-11: 0
+  options:
+    spec_audit_enabled: true
+    skip_test_suite: true
+    e2e_enabled: false
+    user_docs_enabled: false
+    code_review_enabled: true
+    pragmatic_review_enabled: true
+    reality_check_enabled: true
+    production_check_enabled: true
+    skip_test_suite: true
+  created: 2026-04-04T00:00:00Z
+  updated: 2026-04-04T00:00:00Z
+  task_path: .maister/tasks/development/2026-04-04-build-mcp-server
+  task_ids:
+    phase-1: "1"
+    phase-2: "2"
+    phase-5: "3"
+    phase-6: "4"
+    phase-7: "5"
+    phase-8: "6"
+    phase-10: "7"
+    phase-11: "8"
+    phase-14: "9"
+  task_context:
+    risk_level: low-medium
+    clarifications_resolved: true
+    scope_expanded: true
+    architecture_decision: "RestClient + HttpServiceProxyFactory instead of Spring Cloud Feign"
+    task_characteristics:
+      has_reproducible_defect: false
+      modifies_existing_code: false
+      creates_new_entities: true
+      involves_data_operations: true
+      ui_heavy: false
+    research_reference:
+      path: null
+      research_question: null
+      research_type: null
+      confidence_level: null
+    phase_summaries:
+      research: {summary: null, key_findings: [], recommended_approach: null}
+      codebase_analysis:
+        key_files: [SkillPanelMcpApplication.java, SecurityConfig.java, McpJwtFilter.java, SkillsetService.java, McpToolException.java, pom.xml]
+        primary_language: java
+        summary: "Greenfield MCP server in mcp-server/ modeled after production skillpanel-mcp. Key patterns: stateless WebMVC transport, programmatic tool registration, JWT security with token forwarding, Feign clients for API calls."
+      clarifications:
+        - "Scope: skeleton + product listing and adding tools + category listing"
+        - "Spring Boot 4.0.5 (match main app)"
+        - "RestClient instead of Feign (Spring Boot 4.x native)"
+        - "Tool prefix: aj_"
+        - "Port: 8081"
+      gap_analysis:
+        integration_points: ["GET /api/products", "POST /api/products", "GET /api/categories"]
+        summary: "Greenfield module with 3 backend API integration points. Spring Boot 4.0.5 with RestClient replaces Feign. Tools: aj_list_products, aj_add_product, aj_list_categories."
+      scope_clarifications:
+        scope_expanded: true
+        summary: "Added aj_list_categories tool. Using RestClient instead of Feign. Port 8081. aj_ tool prefix."
+      ui_mockups: {components_designed: [], summary: null}
+      specification: {summary: "Standalone MCP server with 3 tools (aj_list_products, aj_add_product, aj_list_categories), trust-and-forward JWT, RestClient, 10 core requirements, 10 reusable components from skillpanel-mcp, 6 new components needed."}
+      architecture_decision: {decision: "RestClient + HttpServiceProxyFactory", summary: "Stay on Spring Boot 4.0.5, use native RestClient instead of Spring Cloud Feign to avoid compatibility issues."}
+
+task:
+  title: Build MCP Server
+  description: >
+    Build an MCP server in the mcp-server directory at the project root.
+    Heavily incorporate skillpanel-mcp patterns. Spring Boot 4.0.5 with RestClient (not Feign).
+    Tools: aj_list_products, aj_add_product, aj_list_categories. Port 8081.
+  status: completed
+  tags: [mcp, new-module]
+  priority: medium

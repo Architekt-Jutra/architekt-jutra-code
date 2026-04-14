@@ -10,6 +10,7 @@ import { PluginDetailPage } from "./pages/PluginDetailPage";
 import { PluginFormPage } from "./pages/PluginFormPage";
 import { PluginPageRoute } from "./pages/PluginPageRoute";
 import { LoginPage } from "./pages/LoginPage";
+import { OAuth2AuthorizePage } from "./pages/OAuth2AuthorizePage";
 import { AuthGuard } from "./auth/AuthGuard";
 import { PluginProvider } from "./plugins/PluginContext";
 
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <AuthGuard requireAuth={false}><LoginPage /></AuthGuard>,
+  },
+  {
+    path: "/oauth2/authorize",
+    element: <AuthGuard><OAuth2AuthorizePage /></AuthGuard>,
   },
   {
     path: "/",

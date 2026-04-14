@@ -44,6 +44,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer ")) {
             return header.substring(7);
         }
+        // Support form-based token for OAuth2 authorize endpoint (native form POST)
+        var formToken = request.getParameter("_token");
+        if (formToken != null && !formToken.isBlank()) {
+            return formToken;
+        }
         return null;
     }
 }

@@ -14,12 +14,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pl.devstyle.aj.core.error.ErrorResponse;
+import pl.devstyle.aj.core.oauth2.AuthorizationCodeService;
+import pl.devstyle.aj.core.oauth2.OAuth2AuthorizationFilter;
+import pl.devstyle.aj.core.oauth2.OAuth2TokenFilter;
+import pl.devstyle.aj.core.oauth2.PublicClientRegistrationFilter;
+import pl.devstyle.aj.core.oauth2.RefreshTokenService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,12 +37,21 @@ public class SecurityConfiguration {
     private final JwtTokenProvider jwtTokenProvider;
     private final ObjectMapper objectMapper;
     private final List<String> allowedOrigins;
+    private final RegisteredClientRepository registeredClientRepository;
+    private final AuthorizationCodeService authorizationCodeService;
+    private final RefreshTokenService refreshTokenService;
 
     public SecurityConfiguration(JwtTokenProvider jwtTokenProvider, ObjectMapper objectMapper,
-                                 @Value("${app.cors.allowed-origins:}") List<String> allowedOrigins) {
+                                 @Value("${app.cors.allowed-origins:}") List<String> allowedOrigins,
+                                 RegisteredClientRepository registeredClientRepository,
+                                 AuthorizationCodeService authorizationCodeService,
+                                 RefreshTokenService refreshTokenService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.objectMapper = objectMapper;
         this.allowedOrigins = allowedOrigins;
+        this.registeredClientRepository = registeredClientRepository;
+        this.authorizationCodeService = authorizationCodeService;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @Bean
@@ -73,7 +88,13 @@ public class SecurityConfiguration {
                         })
                 )
                 .authorizeHttpRequests(auth -> auth
+                        // OAuth2 server endpoints
+                        .requestMatchers(HttpMethod.GET, "/.well-known/oauth-authorization-server").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/oauth2/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/oauth2/token").permitAll()
+
                         // Public endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/oauth2/client-info").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/health").permitAll()
                         .requestMatchers("/assets/**").permitAll()
@@ -81,21 +102,21 @@ public class SecurityConfiguration {
                         // SPA routes: permit all non-API paths so direct navigation (e.g. /login) works
                         .requestMatchers(request -> !request.getRequestURI().startsWith("/api/")).permitAll()
 
-                        // READ permission
-                        .requestMatchers(HttpMethod.GET, "/api/categories/**").hasAuthority("PERMISSION_READ")
-                        .requestMatchers(HttpMethod.GET, "/api/products/**").hasAuthority("PERMISSION_READ")
+                        // READ permission (app: READ, mcp: mcp:read)
+                        .requestMatchers(HttpMethod.GET, "/api/categories/**").hasAnyAuthority("PERMISSION_READ", "PERMISSION_mcp:read")
+                        .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyAuthority("PERMISSION_READ", "PERMISSION_mcp:read")
                         .requestMatchers(HttpMethod.GET, "/api/plugins").hasAuthority("PERMISSION_READ")
                         .requestMatchers(HttpMethod.GET, "/api/plugins/*").hasAuthority("PERMISSION_READ")
                         .requestMatchers(HttpMethod.GET, "/api/plugins/*/objects/**").hasAuthority("PERMISSION_READ")
                         .requestMatchers(HttpMethod.GET, "/api/plugins/*/products/*/data").hasAuthority("PERMISSION_READ")
 
-                        // EDIT permission
-                        .requestMatchers(HttpMethod.POST, "/api/categories/**").hasAuthority("PERMISSION_EDIT")
-                        .requestMatchers(HttpMethod.PUT, "/api/categories/**").hasAuthority("PERMISSION_EDIT")
-                        .requestMatchers(HttpMethod.DELETE, "/api/categories/**").hasAuthority("PERMISSION_EDIT")
-                        .requestMatchers(HttpMethod.POST, "/api/products/**").hasAuthority("PERMISSION_EDIT")
-                        .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAuthority("PERMISSION_EDIT")
-                        .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAuthority("PERMISSION_EDIT")
+                        // EDIT permission (app: EDIT, mcp: mcp:edit)
+                        .requestMatchers(HttpMethod.POST, "/api/categories/**").hasAnyAuthority("PERMISSION_EDIT", "PERMISSION_mcp:edit")
+                        .requestMatchers(HttpMethod.PUT, "/api/categories/**").hasAnyAuthority("PERMISSION_EDIT", "PERMISSION_mcp:edit")
+                        .requestMatchers(HttpMethod.DELETE, "/api/categories/**").hasAnyAuthority("PERMISSION_EDIT", "PERMISSION_mcp:edit")
+                        .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyAuthority("PERMISSION_EDIT", "PERMISSION_mcp:edit")
+                        .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyAuthority("PERMISSION_EDIT", "PERMISSION_mcp:edit")
+                        .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAnyAuthority("PERMISSION_EDIT", "PERMISSION_mcp:edit")
                         .requestMatchers(HttpMethod.PUT, "/api/plugins/*/objects/**").hasAuthority("PERMISSION_EDIT")
                         .requestMatchers(HttpMethod.DELETE, "/api/plugins/*/objects/**").hasAuthority("PERMISSION_EDIT")
                         .requestMatchers(HttpMethod.PUT, "/api/plugins/*/products/*/data").hasAuthority("PERMISSION_EDIT")
@@ -110,7 +131,14 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new PublicClientRegistrationFilter(registeredClientRepository, passwordEncoder()),
+                        JwtAuthenticationFilter.class)
+                .addFilterAfter(new OAuth2AuthorizationFilter(registeredClientRepository, authorizationCodeService),
+                        PublicClientRegistrationFilter.class)
+                .addFilterAfter(new OAuth2TokenFilter(registeredClientRepository, authorizationCodeService,
+                                refreshTokenService, jwtTokenProvider, passwordEncoder()),
+                        OAuth2AuthorizationFilter.class);
 
         return http.build();
     }
