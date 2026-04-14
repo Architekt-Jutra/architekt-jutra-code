@@ -25,12 +25,17 @@ trap cleanup EXIT INT TERM
 echo "Starting host app..."
 ./mvnw -q spring-boot:run &
 
+# --- MCP app (Spring Boot) ---
+echo "Starting MCP app..."
+cd mcp-server
+./mvnw -q spring-boot:run &
+
 # --- Plugins ---
 for dir in plugins/*/; do
   if [ -f "$dir/package.json" ]; then
     name=$(basename "$dir")
     echo "Starting plugin: $name"
-    (cd "$dir" && npm install && npm run dev) &
+    (cd "$dir" && npm run dev) &
   fi
 done
 

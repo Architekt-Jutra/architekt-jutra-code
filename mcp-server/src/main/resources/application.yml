@@ -1,0 +1,34 @@
+server:
+  port: 8081
+  shutdown: graceful
+
+management:
+  server:
+    port: 9081
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+spring:
+  ai:
+    mcp:
+      server:
+        name: aj-mcp
+        version: 1.0.0
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+aj:
+  backend:
+    url: ${AJ_BACKEND_URL:http://localhost:8080}
+  oauth:
+    server-url: ${AJ_OAUTH_SERVER_URL:https://kuba-app.labs-skillpanel.com}
+  mcp:
+    base-url: ${AJ_MCP_BASE_URL:https://kuba-mcp.labs-skillpanel.com}
+
+logging:
+  level:
+    pl.devstyle: DEBUG
+    org.springframework.security: DEBUG
+    io.modelcontextprotocol: DEBUG

@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-create-oauth2-registered-client-table
+      author: aj
+      changes:
+        - createTable:
+            tableName: oauth2_registered_client
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: client_id_issued_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_secret
+                  type: varchar(255)
+              - column:
+                  name: client_secret_expires_at
+                  type: timestamp
+              - column:
+                  name: client_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_authentication_methods
+                  type: text[]
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authorization_grant_types
+                  type: text[]
+                  constraints:
+                    nullable: false
+              - column:
+                  name: redirect_uris
+                  type: text[]
+              - column:
+                  name: scopes
+                  type: text[]
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_oauth2_registered_client_client_id
+            tableName: oauth2_registered_client
+            columns:
+              - column:
+                  name: client_id

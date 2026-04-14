@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 export function LoginPage() {
@@ -10,6 +10,7 @@ export function LoginPage() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -17,7 +18,8 @@ export function LoginPage() {
     setLoading(true);
     try {
       await login(username, password);
-      navigate("/products", { replace: true });
+      const returnTo = searchParams.get("returnTo") || "/products";
+      navigate(returnTo, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {

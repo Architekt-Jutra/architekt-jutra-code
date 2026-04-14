@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 
 interface AuthContextValue {
@@ -29,22 +29,24 @@ function isTokenExpired(token: string): boolean {
   return payload.exp * 1000 < Date.now();
 }
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [permissions, setPermissions] = useState<string[]>([]);
+function loadStoredAuth(): { token: string | null; username: string | null; permissions: string[] } {
+  const stored = localStorage.getItem("auth_token");
+  if (stored && !isTokenExpired(stored)) {
+    const payload = decodeJwtPayload(stored);
+    return { token: stored, username: payload.sub ?? null, permissions: payload.permissions ?? [] };
+  }
+  if (stored) {
+    localStorage.removeItem("auth_token");
+  }
+  return { token: null, username: null, permissions: [] };
+}
 
-  useEffect(() => {
-    const stored = localStorage.getItem("auth_token");
-    if (stored && !isTokenExpired(stored)) {
-      const payload = decodeJwtPayload(stored);
-      setToken(stored);
-      setUsername(payload.sub ?? null);
-      setPermissions(payload.permissions ?? []);
-    } else if (stored) {
-      localStorage.removeItem("auth_token");
-    }
-  }, []);
+const initialAuth = loadStoredAuth();
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [token, setToken] = useState<string | null>(initialAuth.token);
+  const [username, setUsername] = useState<string | null>(initialAuth.username);
+  const [permissions, setPermissions] = useState<string[]>(initialAuth.permissions);
 
   const login = useCallback(async (user: string, password: string) => {
     const response = await fetch("/api/auth/login", {

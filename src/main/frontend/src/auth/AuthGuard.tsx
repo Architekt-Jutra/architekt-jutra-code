@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation, useSearchParams } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import type { ReactNode } from "react";
 
@@ -9,13 +9,17 @@ interface AuthGuardProps {
 
 export function AuthGuard({ children, requireAuth = true }: AuthGuardProps) {
   const { token } = useAuth();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   if (requireAuth && !token) {
-    return <Navigate to="/login" replace />;
+    const returnTo = location.pathname + location.search;
+    return <Navigate to={`/login?returnTo=${encodeURIComponent(returnTo)}`} replace />;
   }
 
   if (!requireAuth && token) {
-    return <Navigate to="/products" replace />;
+    const returnTo = searchParams.get("returnTo") || "/products";
+    return <Navigate to={returnTo} replace />;
   }
 
   return <>{children}</>;

@@ -67,6 +67,12 @@ jOOQ Professional Edition query standards: type-safe DSL usage, SQL injection pr
 #### Database Migrations (`standards/backend/migrations.md`)
 Reversible migrations, small focused changes, zero-downtime awareness, separate schema and data migrations, and careful indexing.
 
+#### Security (`standards/backend/security.md`)
+JWT authentication pattern with centralized SecurityFilterChain authorization (no @PreAuthorize), custom AuthenticationEntryPoint/AccessDeniedHandler for JSON 401/403 responses, BCryptPasswordEncoder for password storage, and JWT token claims structure (sub, permissions, iat, exp).
+
+#### Plugin Authentication (`standards/backend/plugin-auth.md`)
+Browser SDK auth via hostApp.getToken() and postMessage, server-side auth with createServerSDK forwarding JWT from request headers, and permission checking in plugins by decoding JWT permissions claim.
+
 ### Frontend Standards
 
 Located in `.maister/docs/standards/frontend/`
@@ -88,7 +94,7 @@ Mobile-first approach, standard breakpoints, fluid layouts, relative units (rem/
 Located in `.maister/docs/standards/testing/`
 
 #### Backend Testing (`standards/testing/backend-testing.md`)
-Integration test infrastructure with TestContainers and real PostgreSQL 18, integration-first testing strategy (over unit tests), what NOT to test (auto-generated repos, Lombok getters/setters, private methods), test data isolation with @Transactional rollback, MockMvc with jsonPath()/Hamcrest for HTTP assertions, test class naming (*Tests suffix, package-private, same package as production), test method naming (action_condition_expectedResult pattern), private createAndSave*() helper methods with saveAndFlush(), integration vs validation test class split, and test scope guidelines (2-8 tests per feature, CRUD plus edge cases).
+Integration test infrastructure with TestContainers and real PostgreSQL 18, integration-first testing strategy (over unit tests), what NOT to test (auto-generated repos, Lombok getters/setters, private methods), test data isolation with @Transactional rollback, MockMvc with jsonPath()/Hamcrest for HTTP assertions, test class naming (*Tests suffix, package-private, same package as production), test method naming (action_condition_expectedResult pattern), private createAndSave*() helper methods with saveAndFlush(), integration vs validation test class split, test scope guidelines (2-8 tests per feature, CRUD plus edge cases), MockMvc security integration requiring SecurityMockMvcConfiguration import for Spring Boot 4/Security 7, custom security test annotations (@WithMockEditUser, @WithMockAdminUser), and Spring Security 7 PathPattern constraints (single-segment `*` vs multi-segment `**`).
 
 #### Frontend Testing (`standards/testing/frontend-testing.md`)
 Vitest with globals and jsdom environment, @testing-library/react for component rendering and queries, @testing-library/jest-dom for extended DOM matchers, per-file renderWithProviders() helper wrapping ChakraProvider and MemoryRouter, API module mocking with vi.mock() factory functions and vi.resetAllMocks() in beforeEach, vi.mocked() for type-safe mock configuration, describe blocks named after pages/features, and test files in src/test/ directory.
