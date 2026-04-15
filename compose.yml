@@ -16,5 +16,234 @@ services:
       retries: 5
       start_period: 30s
 
+  langfuse-db:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: 'postgres:18'
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_DB: langfuse
+      POSTGRES_USER: langfuse
+      POSTGRES_PASSWORD: langfuse
+    volumes:
+      - langfuse-db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U langfuse -d langfuse"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  clickhouse:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: clickhouse/clickhouse-server:latest
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+    environment:
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: clickhouse
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8123/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  minio:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: minio/minio:latest
+    ports:
+      - '9010:9000'
+      - '9011:9001'
+    volumes:
+      - minio-data:/data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  minio-setup:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 minioadmin minioadmin;
+      mc mb --ignore-existing local/langfuse;
+      exit 0;
+      "
+
+  redis:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: redis:7
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  langfuse:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: langfuse/langfuse:latest
+    ports:
+      - '3100:3000'
+    environment: &langfuse-env
+      HOSTNAME: "0.0.0.0"
+      DATABASE_URL: postgresql://langfuse:langfuse@langfuse-db:5432/langfuse
+      REDIS_CONNECTION_STRING: redis://redis:6379
+      CLICKHOUSE_URL: http://clickhouse:8123
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: clickhouse
+      CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+      CLICKHOUSE_CLUSTER_ENABLED: "false"
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse
+      LANGFUSE_S3_EVENT_UPLOAD_REGION: us-east-1
+      LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: minioadmin
+      LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY: minioadmin
+      LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: "true"
+      NEXTAUTH_URL: http://localhost:3100
+      NEXTAUTH_SECRET: mysecret
+      SALT: mysalt
+      TELEMETRY_ENABLED: "false"
+      LANGFUSE_INIT_ORG_ID: aj-org
+      LANGFUSE_INIT_ORG_NAME: AJ
+      LANGFUSE_INIT_PROJECT_ID: aj-project
+      LANGFUSE_INIT_PROJECT_NAME: AJ Plugins
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: pk-lf-local
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: sk-lf-local
+      LANGFUSE_INIT_USER_EMAIL: admin@aj.local
+      LANGFUSE_INIT_USER_NAME: Admin
+      LANGFUSE_INIT_USER_PASSWORD: admin123
+    depends_on:
+      langfuse-db:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio-setup:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/api/public/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+
+  langfuse-worker:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: langfuse/langfuse-worker:latest
+    environment:
+      <<: *langfuse-env
+    depends_on:
+      langfuse:
+        condition: service_started
+    restart: unless-stopped
+
+  presidio-analyzer:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: mcr.microsoft.com/presidio-analyzer:latest
+    ports:
+      - '5002:3000'
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:3000/health')\""]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+
+  presidio-anonymizer:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: mcr.microsoft.com/presidio-anonymizer:latest
+    ports:
+      - '5001:3000'
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:3000/health')\""]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+
+  litellm-db:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: 'postgres:18'
+    ports:
+      - '5434:5432'
+    environment:
+      POSTGRES_DB: litellm
+      POSTGRES_USER: litellm
+      POSTGRES_PASSWORD: litellm
+    volumes:
+      - litellm-db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U litellm -d litellm"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  litellm:
+    labels:
+      org.springframework.boot.ignore: "true"
+    image: ghcr.io/berriai/litellm:main-stable
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./litellm/config.yaml:/app/config.yaml
+      - ./litellm/presidio_recognizers.json:/app/presidio_recognizers.json
+    env_file:
+      - litellm/.env
+    environment:
+      DATABASE_URL: postgresql://litellm:litellm@litellm-db:5432/litellm
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    depends_on:
+      litellm-db:
+        condition: service_healthy
+      langfuse:
+        condition: service_started
+      presidio-analyzer:
+        condition: service_healthy
+      presidio-anonymizer:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:4000/health/liveliness')\""]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
 volumes:
   postgres-data:
+  langfuse-db-data:
+  clickhouse-data:
+  minio-data:
+  litellm-db-data:

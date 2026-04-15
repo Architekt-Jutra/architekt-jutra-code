@@ -1,0 +1,16 @@
+- generic [ref=e4]:
+  - heading "TomorrowCommerce" [level=1] [ref=e5]
+  - paragraph [ref=e6]: Sign in to your account
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - paragraph [ref=e10]: Username
+      - textbox "Username" [ref=e11]:
+        - /placeholder: Enter username
+        - text: bad
+    - generic [ref=e12]:
+      - paragraph [ref=e14]: Password
+      - textbox "Password" [ref=e15]:
+        - /placeholder: Enter password
+        - text: bad
+    - generic [ref=e17]: Invalid username or password
+    - button "Sign In" [ref=e16] [cursor=pointer]

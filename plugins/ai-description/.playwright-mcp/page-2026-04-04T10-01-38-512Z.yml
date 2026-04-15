@@ -1,0 +1,279 @@
+- generic [ref=e18]:
+  - complementary [ref=e19]:
+    - paragraph [ref=e20]: TomorrowCommerce
+    - navigation "Main navigation" [ref=e21]:
+      - link "Products" [active] [ref=e22] [cursor=pointer]:
+        - /url: /products
+        - img [ref=e23]
+        - text: Products
+      - link "Categories" [ref=e27] [cursor=pointer]:
+        - /url: /categories
+        - img [ref=e28]
+        - text: Categories
+      - link "Plugins" [ref=e31] [cursor=pointer]:
+        - /url: /plugins
+        - img [ref=e32]
+        - text: Plugins
+  - generic [ref=e34]:
+    - banner [ref=e35]:
+      - navigation "Breadcrumb" [ref=e36]:
+        - paragraph [ref=e38]: Products
+      - generic [ref=e39]:
+        - paragraph [ref=e40]: admin
+        - button "Logout" [ref=e41] [cursor=pointer]
+    - main [ref=e42]:
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - heading "Products" [level=1] [ref=e46]
+            - paragraph [ref=e47]: Manage your product catalog
+          - link "+ Add Product" [ref=e48] [cursor=pointer]:
+            - /url: /products/new
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - img [ref=e51]
+            - textbox "Search products..." [ref=e54]
+          - combobox "Filter by category" [ref=e55]:
+            - option "All Categories" [selected]
+            - option "Televisions"
+            - option "Audio Systems"
+            - option "Smart Home"
+            - option "Networking"
+            - option "Home Appliances"
+        - generic [ref=e56]:
+          - table [ref=e57]:
+            - rowgroup [ref=e58]:
+              - row "Photo Name SKU Price Category Created Actions" [ref=e59]:
+                - columnheader "Photo" [ref=e60]
+                - columnheader "Name" [ref=e61] [cursor=pointer]
+                - columnheader "SKU" [ref=e62]
+                - columnheader "Price" [ref=e63] [cursor=pointer]
+                - columnheader "Category" [ref=e64]
+                - columnheader "Created" [ref=e65] [cursor=pointer]
+                - columnheader "Actions" [ref=e66]
+            - rowgroup [ref=e67]:
+              - row "Sony Bravia 7 75\" Mini LED 4K Smart TV Sony Bravia 7 75\" Mini LED 4K Smart TV TV-SNY-BR7-75 $2199.99 Televisions Apr 3, 2026 Edit Sony Bravia 7 75\" Mini LED 4K Smart TV Delete Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e68]:
+                - cell "Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e69]:
+                  - img "Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e71]
+                - cell "Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e72]:
+                  - link "Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e73] [cursor=pointer]:
+                    - /url: /products/3
+                - cell "TV-SNY-BR7-75" [ref=e74]
+                - cell "$2199.99" [ref=e75]
+                - cell "Televisions" [ref=e76]
+                - cell "Apr 3, 2026" [ref=e77]
+                - cell "Edit Sony Bravia 7 75\" Mini LED 4K Smart TV Delete Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e78]:
+                  - generic [ref=e79]:
+                    - link "Edit Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e80] [cursor=pointer]:
+                      - /url: /products/3/edit
+                      - text: Edit
+                    - button "Delete Sony Bravia 7 75\" Mini LED 4K Smart TV" [ref=e81] [cursor=pointer]: Delete
+              - row "Samsung 55\" S90D OLED 4K Smart TV Samsung 55\" S90D OLED 4K Smart TV TV-SAM-S90D-55 $1299.99 Televisions Apr 3, 2026 Edit Samsung 55\" S90D OLED 4K Smart TV Delete Samsung 55\" S90D OLED 4K Smart TV" [ref=e82]:
+                - cell "Samsung 55\" S90D OLED 4K Smart TV" [ref=e83]:
+                  - img "Samsung 55\" S90D OLED 4K Smart TV" [ref=e85]
+                - cell "Samsung 55\" S90D OLED 4K Smart TV" [ref=e86]:
+                  - link "Samsung 55\" S90D OLED 4K Smart TV" [ref=e87] [cursor=pointer]:
+                    - /url: /products/2
+                - cell "TV-SAM-S90D-55" [ref=e88]
+                - cell "$1299.99" [ref=e89]
+                - cell "Televisions" [ref=e90]
+                - cell "Apr 3, 2026" [ref=e91]
+                - cell "Edit Samsung 55\" S90D OLED 4K Smart TV Delete Samsung 55\" S90D OLED 4K Smart TV" [ref=e92]:
+                  - generic [ref=e93]:
+                    - link "Edit Samsung 55\" S90D OLED 4K Smart TV" [ref=e94] [cursor=pointer]:
+                      - /url: /products/2/edit
+                      - text: Edit
+                    - button "Delete Samsung 55\" S90D OLED 4K Smart TV" [ref=e95] [cursor=pointer]: Delete
+              - row "LG C4 65\" OLED evo 4K Smart TV LG C4 65\" OLED evo 4K Smart TV TV-LG-C4-65 $1799.99 Televisions Apr 3, 2026 Edit LG C4 65\" OLED evo 4K Smart TV Delete LG C4 65\" OLED evo 4K Smart TV" [ref=e96]:
+                - cell "LG C4 65\" OLED evo 4K Smart TV" [ref=e97]:
+                  - img "LG C4 65\" OLED evo 4K Smart TV" [ref=e99]
+                - cell "LG C4 65\" OLED evo 4K Smart TV" [ref=e100]:
+                  - link "LG C4 65\" OLED evo 4K Smart TV" [ref=e101] [cursor=pointer]:
+                    - /url: /products/1
+                - cell "TV-LG-C4-65" [ref=e102]
+                - cell "$1799.99" [ref=e103]
+                - cell "Televisions" [ref=e104]
+                - cell "Apr 3, 2026" [ref=e105]
+                - cell "Edit LG C4 65\" OLED evo 4K Smart TV Delete LG C4 65\" OLED evo 4K Smart TV" [ref=e106]:
+                  - generic [ref=e107]:
+                    - link "Edit LG C4 65\" OLED evo 4K Smart TV" [ref=e108] [cursor=pointer]:
+                      - /url: /products/1/edit
+                      - text: Edit
+                    - button "Delete LG C4 65\" OLED evo 4K Smart TV" [ref=e109] [cursor=pointer]: Delete
+              - row "KEF LS50 Wireless II Bookshelf Speakers KEF LS50 Wireless II Bookshelf Speakers AUD-KEF-LS50W2 $2499.99 Audio Systems Apr 3, 2026 Edit KEF LS50 Wireless II Bookshelf Speakers Delete KEF LS50 Wireless II Bookshelf Speakers" [ref=e110]:
+                - cell "KEF LS50 Wireless II Bookshelf Speakers" [ref=e111]:
+                  - img "KEF LS50 Wireless II Bookshelf Speakers" [ref=e113]
+                - cell "KEF LS50 Wireless II Bookshelf Speakers" [ref=e114]:
+                  - link "KEF LS50 Wireless II Bookshelf Speakers" [ref=e115] [cursor=pointer]:
+                    - /url: /products/6
+                - cell "AUD-KEF-LS50W2" [ref=e116]
+                - cell "$2499.99" [ref=e117]
+                - cell "Audio Systems" [ref=e118]
+                - cell "Apr 3, 2026" [ref=e119]
+                - cell "Edit KEF LS50 Wireless II Bookshelf Speakers Delete KEF LS50 Wireless II Bookshelf Speakers" [ref=e120]:
+                  - generic [ref=e121]:
+                    - link "Edit KEF LS50 Wireless II Bookshelf Speakers" [ref=e122] [cursor=pointer]:
+                      - /url: /products/6/edit
+                      - text: Edit
+                    - button "Delete KEF LS50 Wireless II Bookshelf Speakers" [ref=e123] [cursor=pointer]: Delete
+              - row "Bose Smart Soundbar 700 Bose Smart Soundbar 700 AUD-BOSE-SB700 $799.00 Audio Systems Apr 3, 2026 Edit Bose Smart Soundbar 700 Delete Bose Smart Soundbar 700" [ref=e124]:
+                - cell "Bose Smart Soundbar 700" [ref=e125]:
+                  - img "Bose Smart Soundbar 700" [ref=e127]
+                - cell "Bose Smart Soundbar 700" [ref=e128]:
+                  - link "Bose Smart Soundbar 700" [ref=e129] [cursor=pointer]:
+                    - /url: /products/5
+                - cell "AUD-BOSE-SB700" [ref=e130]
+                - cell "$799.00" [ref=e131]
+                - cell "Audio Systems" [ref=e132]
+                - cell "Apr 3, 2026" [ref=e133]
+                - cell "Edit Bose Smart Soundbar 700 Delete Bose Smart Soundbar 700" [ref=e134]:
+                  - generic [ref=e135]:
+                    - link "Edit Bose Smart Soundbar 700" [ref=e136] [cursor=pointer]:
+                      - /url: /products/5/edit
+                      - text: Edit
+                    - button "Delete Bose Smart Soundbar 700" [ref=e137] [cursor=pointer]: Delete
+              - row "Sonos Arc Soundbar Sonos Arc Soundbar AUD-SNS-ARC $899.00 Audio Systems Apr 3, 2026 Edit Sonos Arc Soundbar Delete Sonos Arc Soundbar" [ref=e138]:
+                - cell "Sonos Arc Soundbar" [ref=e139]:
+                  - img "Sonos Arc Soundbar" [ref=e141]
+                - cell "Sonos Arc Soundbar" [ref=e142]:
+                  - link "Sonos Arc Soundbar" [ref=e143] [cursor=pointer]:
+                    - /url: /products/4
+                - cell "AUD-SNS-ARC" [ref=e144]
+                - cell "$899.00" [ref=e145]
+                - cell "Audio Systems" [ref=e146]
+                - cell "Apr 3, 2026" [ref=e147]
+                - cell "Edit Sonos Arc Soundbar Delete Sonos Arc Soundbar" [ref=e148]:
+                  - generic [ref=e149]:
+                    - link "Edit Sonos Arc Soundbar" [ref=e150] [cursor=pointer]:
+                      - /url: /products/4/edit
+                      - text: Edit
+                    - button "Delete Sonos Arc Soundbar" [ref=e151] [cursor=pointer]: Delete
+              - row "Google Nest Learning Thermostat 4th Gen Google Nest Learning Thermostat 4th Gen SH-GOOG-NEST4 $279.99 Smart Home Apr 3, 2026 Edit Google Nest Learning Thermostat 4th Gen Delete Google Nest Learning Thermostat 4th Gen" [ref=e152]:
+                - cell "Google Nest Learning Thermostat 4th Gen" [ref=e153]:
+                  - img "Google Nest Learning Thermostat 4th Gen" [ref=e155]
+                - cell "Google Nest Learning Thermostat 4th Gen" [ref=e156]:
+                  - link "Google Nest Learning Thermostat 4th Gen" [ref=e157] [cursor=pointer]:
+                    - /url: /products/9
+                - cell "SH-GOOG-NEST4" [ref=e158]
+                - cell "$279.99" [ref=e159]
+                - cell "Smart Home" [ref=e160]
+                - cell "Apr 3, 2026" [ref=e161]
+                - cell "Edit Google Nest Learning Thermostat 4th Gen Delete Google Nest Learning Thermostat 4th Gen" [ref=e162]:
+                  - generic [ref=e163]:
+                    - link "Edit Google Nest Learning Thermostat 4th Gen" [ref=e164] [cursor=pointer]:
+                      - /url: /products/9/edit
+                      - text: Edit
+                    - button "Delete Google Nest Learning Thermostat 4th Gen" [ref=e165] [cursor=pointer]: Delete
+              - row "Philips Hue Starter Kit E26 Philips Hue Starter Kit E26 SH-PHI-HUE-SK $179.99 Smart Home Apr 3, 2026 Edit Philips Hue Starter Kit E26 Delete Philips Hue Starter Kit E26" [ref=e166]:
+                - cell "Philips Hue Starter Kit E26" [ref=e167]:
+                  - img "Philips Hue Starter Kit E26" [ref=e169]
+                - cell "Philips Hue Starter Kit E26" [ref=e170]:
+                  - link "Philips Hue Starter Kit E26" [ref=e171] [cursor=pointer]:
+                    - /url: /products/8
+                - cell "SH-PHI-HUE-SK" [ref=e172]
+                - cell "$179.99" [ref=e173]
+                - cell "Smart Home" [ref=e174]
+                - cell "Apr 3, 2026" [ref=e175]
+                - cell "Edit Philips Hue Starter Kit E26 Delete Philips Hue Starter Kit E26" [ref=e176]:
+                  - generic [ref=e177]:
+                    - link "Edit Philips Hue Starter Kit E26" [ref=e178] [cursor=pointer]:
+                      - /url: /products/8/edit
+                      - text: Edit
+                    - button "Delete Philips Hue Starter Kit E26" [ref=e179] [cursor=pointer]: Delete
+              - row "Amazon Echo Hub 8\" Smart Home Control Panel Amazon Echo Hub 8\" Smart Home Control Panel SH-AMZ-ECHOHUB $179.99 Smart Home Apr 3, 2026 Edit Amazon Echo Hub 8\" Smart Home Control Panel Delete Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e180]:
+                - cell "Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e181]:
+                  - img "Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e183]
+                - cell "Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e184]:
+                  - link "Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e185] [cursor=pointer]:
+                    - /url: /products/7
+                - cell "SH-AMZ-ECHOHUB" [ref=e186]
+                - cell "$179.99" [ref=e187]
+                - cell "Smart Home" [ref=e188]
+                - cell "Apr 3, 2026" [ref=e189]
+                - cell "Edit Amazon Echo Hub 8\" Smart Home Control Panel Delete Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e190]:
+                  - generic [ref=e191]:
+                    - link "Edit Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e192] [cursor=pointer]:
+                      - /url: /products/7/edit
+                      - text: Edit
+                    - button "Delete Amazon Echo Hub 8\" Smart Home Control Panel" [ref=e193] [cursor=pointer]: Delete
+              - row "eero Pro 6E Mesh Wi-Fi System (3-Pack) eero Pro 6E Mesh Wi-Fi System (3-Pack) NET-EERO-PRO6E-3 $499.99 Networking Apr 3, 2026 Edit eero Pro 6E Mesh Wi-Fi System (3-Pack) Delete eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e194]:
+                - cell "eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e195]:
+                  - img "eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e197]
+                - cell "eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e198]:
+                  - link "eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e199] [cursor=pointer]:
+                    - /url: /products/11
+                - cell "NET-EERO-PRO6E-3" [ref=e200]
+                - cell "$499.99" [ref=e201]
+                - cell "Networking" [ref=e202]
+                - cell "Apr 3, 2026" [ref=e203]
+                - cell "Edit eero Pro 6E Mesh Wi-Fi System (3-Pack) Delete eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e204]:
+                  - generic [ref=e205]:
+                    - link "Edit eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e206] [cursor=pointer]:
+                      - /url: /products/11/edit
+                      - text: Edit
+                    - button "Delete eero Pro 6E Mesh Wi-Fi System (3-Pack)" [ref=e207] [cursor=pointer]: Delete
+              - row "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router NET-ASUS-AXE7800 $299.99 Networking Apr 3, 2026 Edit ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router Delete ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e208]:
+                - cell "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e209]:
+                  - img "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e211]
+                - cell "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e212]:
+                  - link "ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e213] [cursor=pointer]:
+                    - /url: /products/10
+                - cell "NET-ASUS-AXE7800" [ref=e214]
+                - cell "$299.99" [ref=e215]
+                - cell "Networking" [ref=e216]
+                - cell "Apr 3, 2026" [ref=e217]
+                - cell "Edit ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router Delete ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e218]:
+                  - generic [ref=e219]:
+                    - link "Edit ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e220] [cursor=pointer]:
+                      - /url: /products/10/edit
+                      - text: Edit
+                    - button "Delete ASUS RT-AXE7800 Tri-Band Wi-Fi 6E Router" [ref=e221] [cursor=pointer]: Delete
+              - row "Breville Barista Touch Impress Espresso Machine Breville Barista Touch Impress Espresso Machine HA-BRV-BTI $1099.95 Home Appliances Apr 3, 2026 Edit Breville Barista Touch Impress Espresso Machine Delete Breville Barista Touch Impress Espresso Machine" [ref=e222]:
+                - cell "Breville Barista Touch Impress Espresso Machine" [ref=e223]:
+                  - img "Breville Barista Touch Impress Espresso Machine" [ref=e225]
+                - cell "Breville Barista Touch Impress Espresso Machine" [ref=e226]:
+                  - link "Breville Barista Touch Impress Espresso Machine" [ref=e227] [cursor=pointer]:
+                    - /url: /products/14
+                - cell "HA-BRV-BTI" [ref=e228]
+                - cell "$1099.95" [ref=e229]
+                - cell "Home Appliances" [ref=e230]
+                - cell "Apr 3, 2026" [ref=e231]
+                - cell "Edit Breville Barista Touch Impress Espresso Machine Delete Breville Barista Touch Impress Espresso Machine" [ref=e232]:
+                  - generic [ref=e233]:
+                    - link "Edit Breville Barista Touch Impress Espresso Machine" [ref=e234] [cursor=pointer]:
+                      - /url: /products/14/edit
+                      - text: Edit
+                    - button "Delete Breville Barista Touch Impress Espresso Machine" [ref=e235] [cursor=pointer]: Delete
+              - row "Dyson Purifier Hot+Cool HP07 Dyson Purifier Hot+Cool HP07 HA-DYS-HP07 $649.99 Home Appliances Apr 3, 2026 Edit Dyson Purifier Hot+Cool HP07 Delete Dyson Purifier Hot+Cool HP07" [ref=e236]:
+                - cell "Dyson Purifier Hot+Cool HP07" [ref=e237]:
+                  - img "Dyson Purifier Hot+Cool HP07" [ref=e239]
+                - cell "Dyson Purifier Hot+Cool HP07" [ref=e240]:
+                  - link "Dyson Purifier Hot+Cool HP07" [ref=e241] [cursor=pointer]:
+                    - /url: /products/13
+                - cell "HA-DYS-HP07" [ref=e242]
+                - cell "$649.99" [ref=e243]
+                - cell "Home Appliances" [ref=e244]
+                - cell "Apr 3, 2026" [ref=e245]
+                - cell "Edit Dyson Purifier Hot+Cool HP07 Delete Dyson Purifier Hot+Cool HP07" [ref=e246]:
+                  - generic [ref=e247]:
+                    - link "Edit Dyson Purifier Hot+Cool HP07" [ref=e248] [cursor=pointer]:
+                      - /url: /products/13/edit
+                      - text: Edit
+                    - button "Delete Dyson Purifier Hot+Cool HP07" [ref=e249] [cursor=pointer]: Delete
+              - row "iRobot Roomba j9+ Self-Emptying Robot Vacuum iRobot Roomba j9+ Self-Emptying Robot Vacuum HA-IRB-J9PLUS $799.99 Home Appliances Apr 3, 2026 Edit iRobot Roomba j9+ Self-Emptying Robot Vacuum Delete iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e250]:
+                - cell "iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e251]:
+                  - img "iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e253]
+                - cell "iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e254]:
+                  - link "iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e255] [cursor=pointer]:
+                    - /url: /products/12
+                - cell "HA-IRB-J9PLUS" [ref=e256]
+                - cell "$799.99" [ref=e257]
+                - cell "Home Appliances" [ref=e258]
+                - cell "Apr 3, 2026" [ref=e259]
+                - cell "Edit iRobot Roomba j9+ Self-Emptying Robot Vacuum Delete iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e260]:
+                  - generic [ref=e261]:
+                    - link "Edit iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e262] [cursor=pointer]:
+                      - /url: /products/12/edit
+                      - text: Edit
+                    - button "Delete iRobot Roomba j9+ Self-Emptying Robot Vacuum" [ref=e263] [cursor=pointer]: Delete
+          - generic [ref=e264]: Showing 14 products

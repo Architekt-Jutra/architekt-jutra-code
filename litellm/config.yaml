@@ -1,0 +1,32 @@
+model_list:
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: claude-sonnet
+    litellm_params:
+      model: anthropic/claude-sonnet-4-20250514
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+guardrails:
+  - guardrail_name: "presidio-pii"
+    litellm_params:
+      guardrail: presidio
+      mode: "pre_call"
+      default_on: true
+      presidio_ad_hoc_recognizers: "presidio_recognizers.json"
+      pii_entities_config:
+        CREDIT_CARD: BLOCK
+        PHONE_NUMBER: MASK
+        EMAIL_ADDRESS: MASK
+        PL_PESEL: MASK
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  store_model_in_db: true
+  store_prompts_in_spend_logs: true
+
+litellm_settings:
+  success_callback: ["langfuse"]
+  failure_callback: ["langfuse"]

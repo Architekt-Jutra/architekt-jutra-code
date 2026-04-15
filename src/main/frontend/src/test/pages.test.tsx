@@ -10,6 +10,20 @@ import * as productsApi from "../api/products";
 import { PluginProvider } from "../plugins/PluginContext";
 import * as pluginsApi from "../api/plugins";
 
+vi.mock("../auth/AuthContext", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../auth/AuthContext")>();
+  return {
+    ...actual,
+    useAuth: vi.fn(() => ({
+      token: "test-token",
+      username: "admin",
+      permissions: ["EDIT", "PLUGIN_MANAGEMENT"],
+      login: vi.fn(),
+      logout: vi.fn(),
+    })),
+  };
+});
+
 // Mock the API modules
 vi.mock("../api/categories", () => ({
   getCategories: vi.fn(),

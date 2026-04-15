@@ -1,0 +1,64 @@
+orchestrator:
+  started_phase: phase-14
+  completed_phases: [phase-1, phase-2, phase-5, phase-6, phase-7, phase-8, phase-10, phase-11, phase-14]
+  failed_phases: []
+  auto_fix_attempts:
+    phase-1: 0
+    phase-2: 0
+    phase-3: 0
+    phase-4: 0
+    phase-5: 0
+    phase-6: 0
+    phase-7: 0
+    phase-8: 0
+    phase-9: 0
+    phase-10: 0
+    phase-11: 0
+    phase-12: 0
+    phase-13: 0
+    phase-14: 0
+  options:
+    spec_audit_enabled: true
+    skip_test_suite: true
+    e2e_enabled: true
+    user_docs_enabled: true
+    code_review_enabled: true
+    pragmatic_review_enabled: true
+    reality_check_enabled: true
+    production_check_enabled: true
+  task_context:
+    risk_level: medium
+    clarifications_resolved: true
+    scope_expanded: false
+    architecture_decision: "Next.js Pages Router with server-side BAML, configurable LLM provider, product tab only"
+    task_characteristics:
+      has_reproducible_defect: false
+      modifies_existing_code: false
+      creates_new_entities: true
+      involves_data_operations: true
+      ui_heavy: true
+    research_reference:
+      path: null
+      research_question: null
+      research_type: null
+      confidence_level: null
+    phase_summaries:
+      research: {summary: null, key_findings: [], recommended_approach: null}
+      codebase_analysis: {key_files: [plugins/sdk.ts, plugins/warehouse/, plugins/box-size/, src/main/java/pl/devstyle/aj/core/plugin/], primary_language: "Java + TypeScript", summary: "Microkernel plugin platform with 2 reference plugins (Vite+React). AI/BAML is entirely new. Plugin SDK uses postMessage iframes. Storage via pluginData JSONB or plugin_objects table."}
+      clarifications: ["User chose Next.js over Vite+React to demonstrate multi-tech plugin support and server-side LLM processing"]
+      gap_analysis: {integration_points: [product.detail.tabs, product.detail.info, thisPlugin.getData/setData, hostApp.getProduct, "Next.js API route POST /api/generate", plugin manifest registration], summary: "New plugin with medium architectural impact — first Next.js plugin and first AI integration. Uses per-product data storage, product tab + info badge extension points. BAML handles structured LLM output in Next.js server-side."}
+      scope_clarifications: {scope_expanded: false, summary: "Scoped to product.detail.tabs only (no badge, no dashboard). Pages Router. Configurable LLM via BAML. Simple button+spinner UX."}
+      ui_mockups: {components_designed: [], summary: null}
+      specification: {summary: "Next.js Pages Router plugin with BAML for structured AI product descriptions. 11 requirements, 7 reusable components, 5 new components. Single product.detail.tabs extension point. Custom objects storage with entity binding."}
+      architecture_decision: {decision: "Next.js Pages Router with server-side BAML", summary: "Hybrid pattern: Next.js handles AI generation server-side, host SDK handles persistence via custom objects"}
+  task_ids: {}
+  created: "2026-03-29T00:00:00Z"
+  updated: "2026-03-29T00:00:00Z"
+  task_path: .maister/tasks/development/2026-03-29-ai-product-description-plugin
+
+task:
+  title: "AI Product Description Plugin with Next.js Frontend and BAML"
+  description: "Implement a new plugin with frontend (Next.js) and backend that creates detailed product descriptions using AI based on name and description. Uses BAML for structured output: one-liner recommendation, perfect customer target, pros (array of strings), cons (array of strings)."
+  status: in_progress
+  tags: [plugin, nextjs, baml, ai]
+  priority: medium

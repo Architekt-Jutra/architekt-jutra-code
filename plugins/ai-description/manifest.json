@@ -1,0 +1,14 @@
+{
+  "name": "AI Description",
+  "version": "1.0.0",
+  "url": "http://localhost:3003",
+  "description": "Generate AI-powered product descriptions",
+  "extensionPoints": [
+    {
+      "type": "product.detail.tabs",
+      "label": "AI Description",
+      "path": "/product-tab",
+      "priority": 70
+    }
+  ]
+}

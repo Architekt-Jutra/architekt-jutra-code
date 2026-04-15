@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 import { ProductsIcon, CategoriesIcon, PluginsIcon, resolveIcon } from "../shared/Icons";
 import { usePluginContext } from "../../plugins/PluginContext";
+import { useAuth } from "../../auth/AuthContext";
 
 interface NavItemProps {
   to: string;
@@ -62,6 +63,9 @@ function PluginMenuItems() {
 }
 
 export function Sidebar() {
+  const { permissions } = useAuth();
+  const hasPluginManagement = permissions.includes("PLUGIN_MANAGEMENT");
+
   return (
     <Box
       as="aside"
@@ -86,8 +90,10 @@ export function Sidebar() {
       <Flex as="nav" direction="column" gap="2px" role="navigation" aria-label="Main navigation">
         <NavItem to="/products" label="Products" icon={ProductsIcon} />
         <NavItem to="/categories" label="Categories" icon={CategoriesIcon} />
-        <NavItem to="/plugins" label="Plugins" icon={PluginsIcon} />
-        <PluginMenuItems />
+        {hasPluginManagement && (
+          <NavItem to="/plugins" label="Plugins" icon={PluginsIcon} />
+        )}
+        {hasPluginManagement && <PluginMenuItems />}
       </Flex>
     </Box>
   );

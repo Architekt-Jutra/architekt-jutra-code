@@ -7,7 +7,9 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import pl.devstyle.aj.SecurityMockMvcConfiguration;
 import pl.devstyle.aj.TestcontainersConfiguration;
+import pl.devstyle.aj.WithMockAdminUser;
 import pl.devstyle.aj.category.Category;
 import pl.devstyle.aj.category.CategoryRepository;
 import pl.devstyle.aj.product.Product;
@@ -22,10 +24,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import(TestcontainersConfiguration.class)
+@Import({TestcontainersConfiguration.class, SecurityMockMvcConfiguration.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockAdminUser
 class PluginGapTests {
 
     @Autowired
