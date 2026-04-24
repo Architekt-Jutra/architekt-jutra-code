@@ -1,0 +1,48 @@
+orchestrator:
+  mode: interactive
+  started_phase: phase-1
+  completed_phases: [phase-1, phase-2, phase-3]
+  failed_phases: []
+  auto_fix_attempts:
+    phase-1: 0
+    phase-2: 0
+    phase-3: 0
+  options: {}
+  created: "2026-04-10T00:00:00Z"
+  updated: "2026-04-10T00:00:00Z"
+  task_path: .maister/tasks/research/2026-04-10-fitbox-order-workarounds
+  task_ids:
+    phase-1: "1"
+    phase-2: "2"
+    phase-3: "3"
+
+workflow_type: research-gather
+
+research_context:
+  research_type: "mixed"
+  research_question: "Jakie obejścia stosują ludzie w cateringu FitBox wobec oficjalnego systemu zamówień — kto omija system, jak, dlaczego, i jakie to rodzi konsekwencje. Jak systemy cateringowe i food delivery radzą sobie z obejściami procesu zamówień."
+  scope:
+    included:
+      - "Obejścia systemu zamówień FitBox (z transkrypcji spotkania)"
+      - "Aktorzy stosujący obejścia i ich motywacje"
+      - "Konsekwencje obejść (operacyjne, bezpieczeństwo, informacyjne)"
+      - "Praktyki branżowe w cateringu/food delivery wobec obejść procesu zamówień"
+    excluded:
+      - "Problemy z wydajnością strony internetowej"
+      - "Konkurencja cenowa (FreshMeal)"
+      - "Projektowanie rozwiązań technicznych"
+    constraints:
+      - "Źródło wewnętrzne: materials/research-demo/historia-agnieszki.md"
+  methodology: [transcript-analysis, web-research]
+  sources: [materials/research-demo/historia-agnieszki.md, web-industry, web-food-delivery]
+  gathering_strategy:
+    categories: [internal-transcript, industry-practices, food-delivery-patterns]
+    count: 3
+    source: "planner"
+
+task:
+  title: "FitBox - obejścia systemu zamówień"
+  description: "Zbierz informacje o obejściach systemu zamówień w cateringu FitBox oraz o tym jak branża radzi sobie z takimi obejściami"
+  status: completed
+  tags: [research, workarounds, catering, fitbox]
+  priority: null
