@@ -1,0 +1,4 @@
+# Cloned upstream Opik repo (~2GB images + source). Recreatable via `make opik-up`.
+.opik/
+
+# Neo4j volumes are managed by Docker; nothing local to ignore here.

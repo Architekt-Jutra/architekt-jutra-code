@@ -1,0 +1,45 @@
+services:
+  neo4j:
+    image: neo4j:5.26-community
+    container_name: aj-kb-neo4j
+    ports:
+      - '7474:7474'   # HTTP browser
+      - '7687:7687'   # Bolt
+    environment:
+      NEO4J_AUTH: neo4j/aj-knowledge
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: 'apoc.*'
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 1G
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+      - ./seed:/seed:ro
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p aj-knowledge 'RETURN 1' || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 30s
+
+  neo4j-seed:
+    image: neo4j:5.26-community
+    container_name: aj-kb-neo4j-seed
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    volumes:
+      - ./seed:/seed:ro
+    entrypoint: >
+      /bin/sh -c "
+      echo 'Loading ontology...' &&
+      cypher-shell -a bolt://neo4j:7687 -u neo4j -p aj-knowledge -f /seed/aj-kg-ontology.cypher &&
+      echo 'Loading instances...' &&
+      cypher-shell -a bolt://neo4j:7687 -u neo4j -p aj-knowledge -f /seed/aj-kg-seed-v2.cypher &&
+      echo 'Seed complete.'
+      "
+    restart: 'no'
+
+volumes:
+  neo4j-data:
+  neo4j-logs:

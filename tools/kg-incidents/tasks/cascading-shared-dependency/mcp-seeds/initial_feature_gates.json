@@ -1,0 +1,5 @@
+{
+  "warehouse-full-inventory-sync": "on",
+  "ai-description-lazy-cache": "on",
+  "box-size-beta-ui": "rollout"
+}

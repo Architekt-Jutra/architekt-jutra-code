@@ -1,0 +1,414 @@
+# Hand-curated nodes and edges that are NOT mechanically extractable from
+# src/ + plugins/. Edit this file when:
+#   - you add a new Feature, ExternalSystem, or PluginEntity / ExtendedEntity
+#   - you want to refine the description on a singleton (Host, Backend, ...)
+#   - a plugin starts using a new entity binding or storage strategy
+#
+# Wildcards: an edge can use { id: '*' } on either end to fan out across every
+# parsed node of that label (e.g. PluginPage USES PluginSDK for every page).
+
+# =============================================================================
+# NODES
+# =============================================================================
+nodes:
+
+  # ---- System / Actor ----
+  - label: System
+    id: aj-platform
+    properties:
+      name: AJ Platform
+      groupId: pl.devstyle
+      artifactId: aj
+      version: 0.0.1-SNAPSHOT
+      framework: Spring Boot 4.0.5
+
+  - label: Actor
+    id: catalog-operator
+    properties:
+      role: Catalog Operator
+
+  # ---- Host structure ----
+  - label: Host
+    id: aj-host
+    properties:
+      name: AJ Application Host
+      entrypoint: pl.devstyle.aj.AjApplication
+      port: 8080
+
+  - label: Frontend
+    id: aj-frontend
+    properties:
+      name: AJ Frontend
+      path: src/main/frontend
+      language: TypeScript
+      framework: React 19 + Vite
+      router: React Router 7
+
+  - label: Backend
+    id: aj-backend
+    properties:
+      name: AJ Backend
+      rootPackage: pl.devstyle.aj
+      language: Java
+      framework: Spring Boot 4.0.5
+
+  - label: Core
+    id: aj-core
+    properties:
+      name: AJ Core
+      rootPackage: pl.devstyle.aj.core
+      notes: BaseEntity audit, JpaAuditingConfig, GlobalExceptionHandler, plugin engine.
+
+  - label: PluginEngine
+    id: aj-plugin-engine
+    properties:
+      name: AJ Plugin Engine
+      rootPackage: pl.devstyle.aj.core.plugin
+      services:
+        - PluginDescriptorService
+        - PluginObjectService
+        - PluginDataService
+        - DbPluginObjectQueryService
+
+  # ---- Plugin host machinery ----
+  - label: PluginShell
+    id: aj-plugin-shell
+    properties:
+      name: AJ Plugin Shell
+      entrypoint: src/main/frontend/src/main.tsx
+      notes: AppShell + PluginContext + PluginFrame + iframeRegistry + PluginMessageHandler + plugin-sdk host.
+
+  - label: PluginSDK
+    id: aj-plugin-sdk
+    properties:
+      facades: [hostApp, thisPlugin]
+      contextFields: [extensionPoint, pluginId, pluginName, hostOrigin, productId]
+
+  - label: HostBridge
+    id: aj-host-bridge
+    properties:
+      operations: [getProducts, getProduct, getPlugins, pluginFetch, getData, setData, removeData,
+                   objectsList, objectsListByEntity, objectsGet, objectsSave, objectsDelete, filterChange]
+      constraints: "pluginFetch only allows /api/ paths, strips credentials, rejects path traversal (..),
+                    and only returns CORS-safelisted response headers."
+
+  - label: IframeIsolation
+    id: aj-iframe-isolation
+    properties:
+      sandboxFlags: allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads
+      originCheck: PluginMessageHandler verifies event.origin matches the registered plugin URL origin and that the source iframe is registered.
+
+  # ---- Storage strategies (the two ways plugins persist) ----
+  - label: StorageStrategy
+    id: storage-namespaced-plugin-data
+    properties:
+      kind: namespaced-plugin-data
+      location: products.plugin_data JSONB column, namespaced by pluginId
+      scope: per-entity
+
+  - label: StorageStrategy
+    id: storage-plugin-custom-object
+    properties:
+      kind: plugin-custom-object
+      location: plugin_objects table keyed by (pluginId, objectType, objectId)
+      scope: plugin-collection
+
+  # ---- External systems ----
+  - label: ExternalSystem
+    id: ext-postgres
+    properties: { name: PostgreSQL, kind: RDBMS }
+  - label: ExternalSystem
+    id: ext-litellm
+    properties: { name: LiteLLM Proxy, kind: LLM proxy }
+  - label: ExternalSystem
+    id: ext-anthropic
+    properties: { name: Anthropic API, kind: LLM provider }
+  - label: ExternalSystem
+    id: ext-openai
+    properties: { name: OpenAI API, kind: LLM provider }
+  - label: ExternalSystem
+    id: ext-presidio
+    properties: { name: Presidio, kind: PII detection / redaction }
+  - label: ExternalSystem
+    id: ext-langfuse
+    properties: { name: Langfuse, kind: LLM observability }
+
+  # ---- Plugin-owned data (PluginEntity / ExtendedEntity / EntityBinding) ----
+  # These are not auto-detected because the heuristic signal (SDK call sites)
+  # is brittle. Declare them when a plugin introduces persistence.
+  - label: PluginEntity
+    id: pe-warehouse-warehouse
+    properties:
+      name: Warehouse
+      storage: plugin_objects (objectType=warehouse, no entity binding)
+
+  - label: ExtendedEntity
+    id: ee-warehouse-stock-entry
+    properties:
+      name: Stock Entry
+      storage: plugin_objects (objectType=stock, bound entityType=PRODUCT)
+  - label: ExtendedEntity
+    id: ee-warehouse-stock-flag
+    properties:
+      name: Stock Availability Flag
+      storage: "Product.pluginData['warehouse']['stock'] (boolean JSONB key)"
+  - label: ExtendedEntity
+    id: ee-boxsize-data
+    properties:
+      name: Box Dimensions
+      storage: "Product.pluginData['box-size'] (length, width, height)"
+  - label: ExtendedEntity
+    id: ee-aidesc-data
+    properties:
+      name: AI Product Description
+      storage: plugin_objects (objectType=description, bound entityType=PRODUCT)
+
+  - label: EntityBinding
+    id: binding-warehouse-stock-on-product
+    properties: { entityType: PRODUCT }
+  - label: EntityBinding
+    id: binding-aidesc-on-product
+    properties: { entityType: PRODUCT }
+
+  # ---- Features (user-visible capabilities) ----
+  - label: Feature
+    id: feat-manage-categories
+    properties: { name: Manage Categories, owner: host, scope: catalog }
+  - label: Feature
+    id: feat-manage-products
+    properties: { name: Manage Products, owner: host, scope: catalog }
+  - label: Feature
+    id: feat-browse-products
+    properties: { name: Browse Products, owner: host, scope: product-list }
+  - label: Feature
+    id: feat-view-product-details
+    properties: { name: View Product Details, owner: host, scope: product-detail }
+  - label: Feature
+    id: feat-manage-plugins
+    properties: { name: Manage Plugins, owner: host, scope: plugin-management }
+  - label: Feature
+    id: feat-register-plugin
+    properties: { name: Register Plugin (manifest), owner: host, scope: plugin-management }
+  - label: Feature
+    id: feat-toggle-plugin
+    properties: { name: Enable / Disable Plugin, owner: host, scope: plugin-management }
+  - label: Feature
+    id: feat-manage-warehouses
+    properties: { name: Manage Warehouses, owner: plugin, scope: catalog }
+  - label: Feature
+    id: feat-track-stock
+    properties: { name: Track Product Stock, owner: plugin, scope: product-detail }
+  - label: Feature
+    id: feat-filter-by-stock
+    properties: { name: Filter Products by Stock, owner: plugin, scope: product-list }
+  - label: Feature
+    id: feat-product-availability
+    properties: { name: Show Product Availability, owner: plugin, scope: product-detail }
+  - label: Feature
+    id: feat-capture-box-size
+    properties: { name: Capture Box Dimensions, owner: plugin, scope: product-detail }
+  - label: Feature
+    id: feat-show-box-size
+    properties: { name: Show Box Dimensions Badge, owner: plugin, scope: product-detail }
+  - label: Feature
+    id: feat-generate-ai-description
+    properties: { name: Generate AI Product Description, owner: plugin, scope: product-detail }
+
+
+# =============================================================================
+# EDGES
+# =============================================================================
+edges:
+
+  # ---- System / Host structure ----
+  - { type: CONTAINS,         from: { label: System,   id: aj-platform }, to: { label: Host,    id: aj-host } }
+  - { type: CONTAINS,         from: { label: System,   id: aj-platform }, to: { label: Plugin,  id: '*' } }
+  - { type: USES,             from: { label: Actor,    id: catalog-operator }, to: { label: System, id: aj-platform } }
+
+  - { type: CONTAINS,         from: { label: Host,     id: aj-host }, to: { label: Frontend, id: aj-frontend } }
+  - { type: CONTAINS,         from: { label: Host,     id: aj-host }, to: { label: Backend,  id: aj-backend } }
+
+  - { type: CONTAINS,         from: { label: Frontend, id: aj-frontend }, to: { label: CorePage,    id: '*' } }
+  - { type: CONTAINS,         from: { label: Frontend, id: aj-frontend }, to: { label: PluginShell, id: aj-plugin-shell } }
+  - { type: EMBEDS,           from: { label: Frontend, id: aj-frontend }, to: { label: Plugin,      id: '*' } }
+
+  - { type: CONTAINS,         from: { label: Backend,  id: aj-backend }, to: { label: Core,   id: aj-core } }
+  - { type: CONTAINS,         from: { label: Backend,  id: aj-backend }, to: { label: Module, id: '*' } }
+  - { type: USES,             from: { label: Backend,  id: aj-backend }, to: { label: ExternalSystem, id: ext-postgres } }
+
+  - { type: CONTAINS,         from: { label: Core, id: aj-core }, to: { label: PluginEngine, id: aj-plugin-engine } }
+
+  # ---- Plugin engine manages plugin-related entities & registers plugins ----
+  - { type: MANAGES,          from: { label: PluginEngine, id: aj-plugin-engine }, to: { label: Entity, id: entity-plugin-descriptor } }
+  - { type: MANAGES,          from: { label: PluginEngine, id: aj-plugin-engine }, to: { label: Entity, id: entity-plugin-object } }
+  - { type: REGISTERS,        from: { label: PluginEngine, id: aj-plugin-engine }, to: { label: Plugin, id: '*' } }
+
+  # ---- Plugin runtime: every plugin runs in the iframe sandbox and talks via the bridge ----
+  - { type: RUNS_IN,          from: { label: Plugin, id: '*' }, to: { label: IframeIsolation, id: aj-iframe-isolation } }
+  - { type: COMMUNICATES_VIA, from: { label: Plugin, id: '*' }, to: { label: HostBridge,      id: aj-host-bridge } }
+
+  # ---- Plugin pages route through the SDK + bridge; SDK uses bridge ----
+  - { type: USES,             from: { label: PluginPage, id: '*' }, to: { label: PluginSDK,  id: aj-plugin-sdk } }
+  - { type: USES,             from: { label: PluginPage, id: '*' }, to: { label: HostBridge, id: aj-host-bridge } }
+  - { type: USES,             from: { label: PluginSDK, id: aj-plugin-sdk }, to: { label: HostBridge, id: aj-host-bridge } }
+
+  # ---- HostBridge proxies to host endpoints (the SDK message types) ----
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-product-list } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-product-getbyid } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-list } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-data-get } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-data-put } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-data-delete } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-object-list } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-object-listbyentity } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-object-get } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-object-save } }
+  - { type: PROXIES_TO, from: { label: HostBridge, id: aj-host-bridge }, to: { label: APIEndpoints, id: api-plugin-object-delete } }
+
+  # ---- Storage strategies + entity bindings ----
+  - { type: STORED_VIA,   from: { label: PluginEntity,   id: pe-warehouse-warehouse },     to: { label: StorageStrategy, id: storage-plugin-custom-object } }
+  - { type: STORED_VIA,   from: { label: ExtendedEntity, id: ee-warehouse-stock-entry },   to: { label: StorageStrategy, id: storage-plugin-custom-object } }
+  - { type: STORED_VIA,   from: { label: ExtendedEntity, id: ee-warehouse-stock-flag },    to: { label: StorageStrategy, id: storage-namespaced-plugin-data } }
+  - { type: STORED_VIA,   from: { label: ExtendedEntity, id: ee-boxsize-data },            to: { label: StorageStrategy, id: storage-namespaced-plugin-data } }
+  - { type: STORED_VIA,   from: { label: ExtendedEntity, id: ee-aidesc-data },             to: { label: StorageStrategy, id: storage-plugin-custom-object } }
+
+  - { type: PERSISTED_IN, from: { label: StorageStrategy, id: storage-namespaced-plugin-data }, to: { label: Entity, id: entity-product } }
+  - { type: PERSISTED_IN, from: { label: StorageStrategy, id: storage-plugin-custom-object   }, to: { label: Entity, id: entity-plugin-object } }
+
+  - { type: EXTENDS, from: { label: ExtendedEntity, id: ee-warehouse-stock-entry }, to: { label: Entity, id: entity-product } }
+  - { type: EXTENDS, from: { label: ExtendedEntity, id: ee-warehouse-stock-flag },  to: { label: Entity, id: entity-product } }
+  - { type: EXTENDS, from: { label: ExtendedEntity, id: ee-boxsize-data },          to: { label: Entity, id: entity-product } }
+  - { type: EXTENDS, from: { label: ExtendedEntity, id: ee-aidesc-data },           to: { label: Entity, id: entity-product } }
+
+  - { type: TARGETS,  from: { label: EntityBinding, id: binding-warehouse-stock-on-product }, to: { label: Entity, id: entity-product } }
+  - { type: TARGETS,  from: { label: EntityBinding, id: binding-aidesc-on-product },          to: { label: Entity, id: entity-product } }
+  - { type: MAY_USE,  from: { label: PluginEntity,  id: pe-warehouse-warehouse },             to: { label: EntityBinding, id: binding-warehouse-stock-on-product } }
+
+  # ---- Plugins own their PluginEntity / ExtendedEntity nodes ----
+  - { type: CONTAINS, from: { label: Plugin, id: plugin-warehouse },       to: { label: PluginEntity,   id: pe-warehouse-warehouse } }
+  - { type: CONTAINS, from: { label: Plugin, id: plugin-warehouse },       to: { label: ExtendedEntity, id: ee-warehouse-stock-entry } }
+  - { type: CONTAINS, from: { label: Plugin, id: plugin-warehouse },       to: { label: ExtendedEntity, id: ee-warehouse-stock-flag } }
+  - { type: CONTAINS, from: { label: Plugin, id: plugin-box-size },        to: { label: ExtendedEntity, id: ee-boxsize-data } }
+  - { type: CONTAINS, from: { label: Plugin, id: plugin-ai-description },  to: { label: ExtendedEntity, id: ee-aidesc-data } }
+
+  # ---- Extension points + filter definitions render onto host pages ----
+  # We only assert "filters appear on /products"; the iframe-rendered EPs render
+  # on the corresponding host page based on their kind.
+  - { type: RENDERED_ON, from: { label: FilterDefinition, id: '*' }, to: { label: CorePage, id: page-product-list } }
+  - { type: QUERIES,     from: { label: FilterDefinition, id: filter-warehouse-stock }, to: { label: ExtendedEntity, id: ee-warehouse-stock-flag } }
+
+  # menu.main appears on the sidebar across every host page; we model it on the four primary listings.
+  - { type: RENDERED_ON, from: { label: ExtensionPoint, id: ep-warehouse-menu-main-warehouse }, to: { label: CorePage, id: page-product-list } }
+  - { type: RENDERED_ON, from: { label: ExtensionPoint, id: ep-warehouse-menu-main-warehouse }, to: { label: CorePage, id: page-category-list } }
+  - { type: RENDERED_ON, from: { label: ExtensionPoint, id: ep-warehouse-menu-main-warehouse }, to: { label: CorePage, id: page-plugin-list } }
+
+  # product.detail.* extension points all render on the product detail page.
+  - { type: RENDERED_ON, from: { label: ExtensionPoint, id: ep-warehouse-product-detail-tabs-stock-info },     to: { label: CorePage, id: page-product-detail } }
+  - { type: RENDERED_ON, from: { label: ExtensionPoint, id: ep-warehouse-product-detail-info-availability },   to: { label: CorePage, id: page-product-detail } }
+  - { type: RENDERED_ON, from: { label: ExtensionPoint, id: ep-box-size-product-detail-tabs-box-size },        to: { label: CorePage, id: page-product-detail } }
+  - { type: RENDERED_ON, from: { label: ExtensionPoint, id: ep-box-size-product-detail-info-box-size },        to: { label: CorePage, id: page-product-detail } }
+  - { type: RENDERED_ON, from: { label: ExtensionPoint, id: ep-ai-description-product-detail-tabs-ai-description }, to: { label: CorePage, id: page-product-detail } }
+
+  # ---- Plugin APIs reach host endpoints / external systems (via SDK or backend route) ----
+  - { type: USES, from: { label: API, id: api-warehouse },      to: { label: APIEndpoints, id: api-product-list } }
+  - { type: USES, from: { label: API, id: api-warehouse },      to: { label: APIEndpoints, id: api-product-getbyid } }
+  - { type: USES, from: { label: API, id: api-warehouse },      to: { label: APIEndpoints, id: api-plugin-data-get } }
+  - { type: USES, from: { label: API, id: api-warehouse },      to: { label: APIEndpoints, id: api-plugin-data-put } }
+  - { type: USES, from: { label: API, id: api-warehouse },      to: { label: APIEndpoints, id: api-plugin-object-list } }
+  - { type: USES, from: { label: API, id: api-warehouse },      to: { label: APIEndpoints, id: api-plugin-object-listbyentity } }
+  - { type: USES, from: { label: API, id: api-warehouse },      to: { label: APIEndpoints, id: api-plugin-object-save } }
+  - { type: USES, from: { label: API, id: api-warehouse },      to: { label: APIEndpoints, id: api-plugin-object-delete } }
+  - { type: USES, from: { label: API, id: api-box-size },       to: { label: APIEndpoints, id: api-plugin-data-get } }
+  - { type: USES, from: { label: API, id: api-box-size },       to: { label: APIEndpoints, id: api-plugin-data-put } }
+  - { type: USES, from: { label: API, id: api-box-size },       to: { label: APIEndpoints, id: api-plugin-data-delete } }
+  - { type: USES, from: { label: API, id: api-ai-description }, to: { label: APIEndpoints, id: api-product-getbyid } }
+  - { type: USES, from: { label: API, id: api-ai-description }, to: { label: APIEndpoints, id: api-plugin-object-listbyentity } }
+  - { type: USES, from: { label: API, id: api-ai-description }, to: { label: APIEndpoints, id: api-plugin-object-save } }
+
+  - { type: USES, from: { label: API, id: api-ai-description }, to: { label: ExternalSystem, id: ext-litellm } }
+  - { type: USES, from: { label: API, id: api-ai-description }, to: { label: ExternalSystem, id: ext-anthropic } }
+  - { type: USES, from: { label: API, id: api-ai-description }, to: { label: ExternalSystem, id: ext-openai } }
+  - { type: USES, from: { label: API, id: api-ai-description }, to: { label: ExternalSystem, id: ext-presidio } }
+  - { type: USES, from: { label: API, id: api-ai-description }, to: { label: ExternalSystem, id: ext-langfuse } }
+
+  # ---- Core pages USE the host endpoints they call ----
+  - { type: USES, from: { label: CorePage, id: page-product-list },    to: { label: APIEndpoints, id: api-product-list } }
+  - { type: USES, from: { label: CorePage, id: page-product-list },    to: { label: APIEndpoints, id: api-category-list } }
+  - { type: USES, from: { label: CorePage, id: page-product-list },    to: { label: APIEndpoints, id: api-plugin-list } }
+  - { type: USES, from: { label: CorePage, id: page-product-detail },  to: { label: APIEndpoints, id: api-product-getbyid } }
+  - { type: USES, from: { label: CorePage, id: page-product-detail },  to: { label: APIEndpoints, id: api-plugin-list } }
+  - { type: USES, from: { label: CorePage, id: page-product-form },    to: { label: APIEndpoints, id: api-product-getbyid } }
+  - { type: USES, from: { label: CorePage, id: page-product-form },    to: { label: APIEndpoints, id: api-product-create } }
+  - { type: USES, from: { label: CorePage, id: page-product-form },    to: { label: APIEndpoints, id: api-product-update } }
+  - { type: USES, from: { label: CorePage, id: page-product-form },    to: { label: APIEndpoints, id: api-category-list } }
+  - { type: USES, from: { label: CorePage, id: page-category-list },   to: { label: APIEndpoints, id: api-category-list } }
+  - { type: USES, from: { label: CorePage, id: page-category-list },   to: { label: APIEndpoints, id: api-category-delete } }
+  - { type: USES, from: { label: CorePage, id: page-category-form },   to: { label: APIEndpoints, id: api-category-getbyid } }
+  - { type: USES, from: { label: CorePage, id: page-category-form },   to: { label: APIEndpoints, id: api-category-create } }
+  - { type: USES, from: { label: CorePage, id: page-category-form },   to: { label: APIEndpoints, id: api-category-update } }
+  - { type: USES, from: { label: CorePage, id: page-plugin-list },     to: { label: APIEndpoints, id: api-plugin-list } }
+  - { type: USES, from: { label: CorePage, id: page-plugin-list },     to: { label: APIEndpoints, id: api-plugin-setenabled } }
+  - { type: USES, from: { label: CorePage, id: page-plugin-list },     to: { label: APIEndpoints, id: api-plugin-delete } }
+  - { type: USES, from: { label: CorePage, id: page-plugin-detail },   to: { label: APIEndpoints, id: api-plugin-getbyid } }
+  - { type: USES, from: { label: CorePage, id: page-plugin-form },     to: { label: APIEndpoints, id: api-plugin-uploadmanifest } }
+  - { type: USES, from: { label: CorePage, id: page-plugin-form },     to: { label: APIEndpoints, id: api-plugin-getbyid } }
+
+  # ---- Features ----
+  - { type: PERFORMED_BY, from: { label: Feature, id: '*' }, to: { label: Actor, id: catalog-operator } }
+
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-manage-categories },    to: { label: CorePage, id: page-category-list } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-manage-categories },    to: { label: CorePage, id: page-category-form } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-manage-products },      to: { label: CorePage, id: page-product-list } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-manage-products },      to: { label: CorePage, id: page-product-form } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-browse-products },      to: { label: CorePage, id: page-product-list } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-view-product-details }, to: { label: CorePage, id: page-product-detail } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-manage-plugins },       to: { label: CorePage, id: page-plugin-list } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-manage-plugins },       to: { label: CorePage, id: page-plugin-detail } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-register-plugin },      to: { label: CorePage, id: page-plugin-form } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-toggle-plugin },        to: { label: CorePage, id: page-plugin-list } }
+
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-manage-warehouses },       to: { label: PluginPage, id: pp-warehouse-warehouse-page } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-track-stock },             to: { label: PluginPage, id: pp-warehouse-warehouse-page } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-track-stock },             to: { label: PluginPage, id: pp-warehouse-product-stock-tab } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-product-availability },    to: { label: PluginPage, id: pp-warehouse-product-availability } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-capture-box-size },        to: { label: PluginPage, id: pp-box-size-product-box-tab } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-show-box-size },           to: { label: PluginPage, id: pp-box-size-product-box-badge } }
+  - { type: REALIZED_BY,  from: { label: Feature, id: feat-generate-ai-description }, to: { label: PluginPage, id: pp-ai-description-product-tab } }
+
+  - { type: DELIVERED_VIA, from: { label: Feature, id: feat-manage-warehouses },       to: { label: ExtensionPoint, id: ep-warehouse-menu-main-warehouse } }
+  - { type: DELIVERED_VIA, from: { label: Feature, id: feat-track-stock },             to: { label: ExtensionPoint, id: ep-warehouse-product-detail-tabs-stock-info } }
+  - { type: DELIVERED_VIA, from: { label: Feature, id: feat-product-availability },    to: { label: ExtensionPoint, id: ep-warehouse-product-detail-info-availability } }
+  - { type: DELIVERED_VIA, from: { label: Feature, id: feat-capture-box-size },        to: { label: ExtensionPoint, id: ep-box-size-product-detail-tabs-box-size } }
+  - { type: DELIVERED_VIA, from: { label: Feature, id: feat-show-box-size },           to: { label: ExtensionPoint, id: ep-box-size-product-detail-info-box-size } }
+  - { type: DELIVERED_VIA, from: { label: Feature, id: feat-generate-ai-description }, to: { label: ExtensionPoint, id: ep-ai-description-product-detail-tabs-ai-description } }
+
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-categories },    to: { label: Action, id: action-category-create } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-categories },    to: { label: Action, id: action-category-update } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-categories },    to: { label: Action, id: action-category-delete } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-categories },    to: { label: Action, id: action-category-findall } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-categories },    to: { label: Action, id: action-category-findbyid } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-products },      to: { label: Action, id: action-product-create } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-products },      to: { label: Action, id: action-product-update } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-products },      to: { label: Action, id: action-product-delete } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-browse-products },      to: { label: Action, id: action-product-findall } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-view-product-details }, to: { label: Action, id: action-product-findbyid } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-plugins },       to: { label: Action, id: action-plugin-descriptor-findallenabled } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-plugins },       to: { label: Action, id: action-plugin-descriptor-findbyid } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-plugins },       to: { label: Action, id: action-plugin-descriptor-delete } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-register-plugin },      to: { label: Action, id: action-plugin-descriptor-uploadmanifest } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-toggle-plugin },        to: { label: Action, id: action-plugin-descriptor-setenabled } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-warehouses },    to: { label: Action, id: action-plugin-object-save } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-warehouses },    to: { label: Action, id: action-plugin-object-list } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-manage-warehouses },    to: { label: Action, id: action-plugin-object-delete } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-track-stock },          to: { label: Action, id: action-plugin-object-save } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-track-stock },          to: { label: Action, id: action-plugin-object-listbyentity } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-track-stock },          to: { label: Action, id: action-plugin-data-setdata } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-filter-by-stock },      to: { label: Action, id: action-product-findall } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-product-availability }, to: { label: Action, id: action-plugin-data-getdata } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-capture-box-size },     to: { label: Action, id: action-plugin-data-getdata } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-capture-box-size },     to: { label: Action, id: action-plugin-data-setdata } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-capture-box-size },     to: { label: Action, id: action-plugin-data-removedata } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-show-box-size },        to: { label: Action, id: action-plugin-data-getdata } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-generate-ai-description }, to: { label: Action, id: action-plugin-object-save } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-generate-ai-description }, to: { label: Action, id: action-plugin-object-listbyentity } }
+  - { type: BACKED_BY, from: { label: Feature, id: feat-generate-ai-description }, to: { label: Action, id: action-product-findbyid } }

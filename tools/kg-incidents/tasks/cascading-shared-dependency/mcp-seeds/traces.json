@@ -1,0 +1,84 @@
+{
+  "traces": [
+    {
+      "trace_id": "t-001",
+      "root_service": "ai-description",
+      "root_endpoint": "internal/describe",
+      "total_duration_ms": 4150,
+      "span_count": 4,
+      "started_at": "2026-04-17T13:55:20Z",
+      "spans": [
+        {"span_id": "s-001-a", "parent_span_id": null, "service": "ai-description",
+         "endpoint": "internal/describe", "duration_ms": 4150, "http_status": 200},
+        {"span_id": "s-001-b", "parent_span_id": "s-001-a", "service": "ai-description",
+         "endpoint": "GET /api/products/{id}", "duration_ms": 2700, "db_wait_ms": 2500, "http_status": 200},
+        {"span_id": "s-001-c", "parent_span_id": "s-001-a", "service": "litellm-proxy",
+         "endpoint": "POST /v1/chat/completions", "duration_ms": 1350, "http_status": 200},
+        {"span_id": "s-001-d", "parent_span_id": "s-001-c", "service": "presidio-pii",
+         "endpoint": "POST /analyze", "duration_ms": 80, "http_status": 200}
+      ]
+    },
+    {
+      "trace_id": "t-002",
+      "root_service": "ai-description",
+      "root_endpoint": "internal/describe",
+      "total_duration_ms": 4380,
+      "span_count": 4,
+      "started_at": "2026-04-17T13:50:05Z",
+      "spans": [
+        {"span_id": "s-002-a", "parent_span_id": null, "service": "ai-description",
+         "endpoint": "internal/describe", "duration_ms": 4380, "http_status": 200},
+        {"span_id": "s-002-b", "parent_span_id": "s-002-a", "service": "ai-description",
+         "endpoint": "GET /api/products/{id}", "duration_ms": 2900, "db_wait_ms": 2700, "http_status": 200},
+        {"span_id": "s-002-c", "parent_span_id": "s-002-a", "service": "litellm-proxy",
+         "endpoint": "POST /v1/chat/completions", "duration_ms": 1380, "http_status": 200},
+        {"span_id": "s-002-d", "parent_span_id": "s-002-c", "service": "presidio-pii",
+         "endpoint": "POST /analyze", "duration_ms": 90, "http_status": 200}
+      ]
+    },
+    {
+      "trace_id": "t-101",
+      "root_service": "warehouse",
+      "root_endpoint": "cron/inventory-sync",
+      "total_duration_ms": 62,
+      "span_count": 2,
+      "started_at": "2026-04-17T13:59:12Z",
+      "spans": [
+        {"span_id": "s-101-a", "parent_span_id": null, "service": "warehouse",
+         "endpoint": "cron/inventory-sync", "duration_ms": 62, "http_status": 200},
+        {"span_id": "s-101-b", "parent_span_id": "s-101-a", "service": "host-app",
+         "endpoint": "GET /api/products/{id}", "duration_ms": 58, "db_wait_ms": 1, "http_status": 200}
+      ]
+    },
+    {
+      "trace_id": "t-102",
+      "root_service": "warehouse",
+      "root_endpoint": "cron/inventory-sync",
+      "total_duration_ms": 55,
+      "span_count": 2,
+      "started_at": "2026-04-17T13:59:18Z",
+      "spans": [
+        {"span_id": "s-102-a", "parent_span_id": null, "service": "warehouse",
+         "endpoint": "cron/inventory-sync", "duration_ms": 55, "http_status": 200},
+        {"span_id": "s-102-b", "parent_span_id": "s-102-a", "service": "host-app",
+         "endpoint": "GET /api/products/{id}", "duration_ms": 51, "db_wait_ms": 1, "http_status": 200}
+      ]
+    },
+    {
+      "trace_id": "t-050",
+      "root_service": "ai-description",
+      "root_endpoint": "internal/describe",
+      "total_duration_ms": 1310,
+      "span_count": 3,
+      "started_at": "2026-04-17T10:00:00Z",
+      "spans": [
+        {"span_id": "s-050-a", "parent_span_id": null, "service": "ai-description",
+         "endpoint": "internal/describe", "duration_ms": 1310, "http_status": 200},
+        {"span_id": "s-050-b", "parent_span_id": "s-050-a", "service": "ai-description",
+         "endpoint": "GET /api/products/{id}", "duration_ms": 220, "db_wait_ms": 5, "http_status": 200},
+        {"span_id": "s-050-c", "parent_span_id": "s-050-a", "service": "litellm-proxy",
+         "endpoint": "POST /v1/chat/completions", "duration_ms": 810, "http_status": 200}
+      ]
+    }
+  ]
+}

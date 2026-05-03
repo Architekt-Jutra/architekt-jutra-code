@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "aj-catalog": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["/opt/mcp-servers/aj-catalog/server.py"]
+    },
+    "aj-metrics": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["/opt/mcp-servers/aj-metrics/server.py"]
+    },
+    "aj-traces": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["/opt/mcp-servers/aj-traces/server.py"]
+    },
+    "aj-changes": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["/opt/mcp-servers/aj-changes/server.py"]
+    }
+  }
+}

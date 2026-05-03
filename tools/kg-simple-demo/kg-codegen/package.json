@@ -1,0 +1,19 @@
+{
+  "name": "aj-kg-codegen",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Parses src/ + plugins/ and generates a knowledge-graph instance seed (aj-kg-seed.<timestamp>.cypher).",
+  "scripts": {
+    "gen": "tsx index.ts"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.2",
+    "typescript": "^5.7.0",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.2"
+  }
+}

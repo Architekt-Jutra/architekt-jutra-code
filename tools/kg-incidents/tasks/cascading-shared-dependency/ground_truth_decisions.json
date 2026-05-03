@@ -1,0 +1,21 @@
+{
+  "root_cause": {
+    "primary_agent": "warehouse",
+    "mechanism": "shared postgresql connection pool saturation",
+    "trigger": "warehouse-full-inventory-sync feature gate toggled on 4h ago",
+    "authored_by": "p.warehouse@example.com"
+  },
+  "acceptable_fixes": [
+    {"kind": "gate_flip", "target": "warehouse-full-inventory-sync", "state": "off"},
+    {"kind": "code_mitigation", "targets": ["warehouse", "host-app"], "pattern": "rate-limit or circuit-breaker on sync loop"},
+    {"kind": "infrastructure", "targets": ["ai-description"], "pattern": "dedicated connection pool or read replica"}
+  ],
+  "reject_fixes": [
+    "litellm config change",
+    "ai-description cache refactor",
+    "LLM model swap",
+    "postgresql scale-up without addressing load source"
+  ],
+  "correct_escalation_team": "warehouse-product",
+  "correct_escalation_person": "p.warehouse@example.com"
+}

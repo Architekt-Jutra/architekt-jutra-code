@@ -1,0 +1,60 @@
+{
+  "services": [
+    {
+      "name": "host-app", "tier": "core", "runtime": "jvm",
+      "release_channel": "stable", "lifecycle": "production",
+      "owner_team": "platform-core",
+      "uses_datastore_names": ["postgresql-primary", "minio-assets"],
+      "uses_dependency_names": [],
+      "exposed_endpoints": [
+        {"path": "/api/products/{id}", "method": "GET", "version": "v1"},
+        {"path": "/api/plugins/{id}/objects", "method": "POST", "version": "v1"},
+        {"path": "/api/categories", "method": "GET", "version": "v1"}
+      ]
+    },
+    {
+      "name": "ai-description", "tier": "extension", "runtime": "jvm",
+      "release_channel": "stable", "lifecycle": "production",
+      "owner_team": "ai-team",
+      "uses_datastore_names": ["postgresql-primary"],
+      "uses_dependency_names": ["litellm-proxy", "langfuse-tracing", "presidio-pii"],
+      "exposed_endpoints": []
+    },
+    {
+      "name": "warehouse", "tier": "extension", "runtime": "node",
+      "release_channel": "stable", "lifecycle": "production",
+      "owner_team": "warehouse-product",
+      "uses_datastore_names": ["postgresql-primary"],
+      "uses_dependency_names": [],
+      "exposed_endpoints": []
+    },
+    {
+      "name": "box-size", "tier": "extension", "runtime": "node",
+      "release_channel": "stable", "lifecycle": "production",
+      "owner_team": "warehouse-product",
+      "uses_datastore_names": ["redis-cache"],
+      "uses_dependency_names": [],
+      "exposed_endpoints": []
+    }
+  ],
+  "datastores": [
+    {"name": "postgresql-primary", "kind": "relational", "capacity_tier": "shared", "owner_team": "platform-core"},
+    {"name": "redis-cache", "kind": "keyvalue", "capacity_tier": "dedicated", "owner_team": "platform-core"},
+    {"name": "minio-assets", "kind": "object", "capacity_tier": "shared", "owner_team": "platform-core"}
+  ],
+  "dependencies": [
+    {"name": "litellm-proxy", "vendor": "internal", "kind": "proxy", "owner_team": "platform-core"},
+    {"name": "langfuse-tracing", "vendor": "internal", "kind": "saas", "owner_team": "platform-core"},
+    {"name": "presidio-pii", "vendor": "external", "kind": "saas", "owner_team": "platform-core"}
+  ],
+  "teams": [
+    {"name": "platform-core", "kind": "platform", "members": ["a.nowak@example.com"]},
+    {"name": "ai-team", "kind": "product", "members": ["m.ai@example.com"]},
+    {"name": "warehouse-product", "kind": "product", "members": ["p.warehouse@example.com"]}
+  ],
+  "persons": [
+    {"handle": "a.nowak@example.com", "email": "a.nowak@example.com", "team": "platform-core"},
+    {"handle": "p.warehouse@example.com", "email": "p.warehouse@example.com", "team": "warehouse-product"},
+    {"handle": "m.ai@example.com", "email": "m.ai@example.com", "team": "ai-team"}
+  ]
+}

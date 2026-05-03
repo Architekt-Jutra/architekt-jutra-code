@@ -1,0 +1,14 @@
+[project]
+name = "kg-incidents"
+version = "1.0.0"
+
+[defaults]
+variant = "with-mcp-kg"
+
+[evaluation]
+model = "claude-opus-4-6"
+dimensions_file = "assessment_dimensions.json"
+skills_dir = "./evaluator_skills"
+include_trajectory = true
+
+[reporting]

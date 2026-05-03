@@ -1,0 +1,77 @@
+{
+  "revisions": [
+    {
+      "id": "rev-001",
+      "target_kind": "gate",
+      "target": "warehouse-full-inventory-sync",
+      "kind": "toggle",
+      "at": "2026-04-17T10:00:00Z",
+      "authored_by_handle": "p.warehouse@example.com",
+      "summary": "enable full inventory sync",
+      "long_description": "Rolling out nightly/hourly full inventory sync via /api/products/{id}. Replaces on-demand lookups. Expected load: ~2000 RPM per pod steady-state."
+    },
+    {
+      "id": "rev-002",
+      "target_kind": "service",
+      "target": "ai-description",
+      "kind": "deploy",
+      "at": "2026-04-16T20:00:00Z",
+      "authored_by_handle": "m.ai@example.com",
+      "summary": "v2.1 to v2.2 cache refactor",
+      "long_description": "Refactored description cache to use LazyLoader for startup performance. No behavior change for cache invalidation path."
+    },
+    {
+      "id": "rev-003",
+      "target_kind": "dependency",
+      "target": "litellm-proxy",
+      "kind": "config",
+      "at": "2026-04-12T14:00:00Z",
+      "authored_by_handle": "a.nowak@example.com",
+      "summary": "add claude-haiku route",
+      "long_description": "Added claude-haiku-20250101 as an alternative route for short-form description generation. No changes to existing routes."
+    },
+    {
+      "id": "rev-004",
+      "target_kind": "service",
+      "target": "host-app",
+      "kind": "deploy",
+      "at": "2026-04-14T14:00:00Z",
+      "authored_by_handle": "a.nowak@example.com",
+      "summary": "v4.0.5 framework upgrade",
+      "long_description": "Spring Boot 4.0.4 to 4.0.5 patch bump. No API changes."
+    },
+    {
+      "id": "rev-005",
+      "target_kind": "service",
+      "target": "warehouse",
+      "kind": "deploy",
+      "at": "2026-04-10T14:00:00Z",
+      "authored_by_handle": "m.ai@example.com",
+      "summary": "v1.4 to v1.5 ui polish",
+      "long_description": "Frontend-only changes: better empty-state UI for new tenants."
+    }
+  ],
+  "feature_gates": [
+    {
+      "name": "warehouse-full-inventory-sync",
+      "description": "enable hourly full inventory sync via product API",
+      "gated_services": ["warehouse"],
+      "owner_team": "warehouse-product",
+      "latest_revision_id": "rev-001"
+    },
+    {
+      "name": "ai-description-lazy-cache",
+      "description": "use lazy loader for description cache",
+      "gated_services": ["ai-description"],
+      "owner_team": "ai-team",
+      "latest_revision_id": "rev-002"
+    },
+    {
+      "name": "box-size-beta-ui",
+      "description": "new BoxSize UI for beta tenants",
+      "gated_services": ["box-size"],
+      "owner_team": "warehouse-product",
+      "latest_revision_id": null
+    }
+  ]
+}

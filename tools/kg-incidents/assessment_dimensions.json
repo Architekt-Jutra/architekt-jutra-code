@@ -1,0 +1,28 @@
+{
+  "dimensions": [
+    {
+      "name": "root_cause_accuracy",
+      "title": "Root Cause Accuracy",
+      "max_score": 25,
+      "description": "Did the agent correctly identify that warehouse's inventory sync (enabled via feature gate) saturates the shared postgresql connection pool, causing ai-description's upstream wait? Evidence comes from the agent's written diagnosis (commit message, report file, or final message) AND trajectory showing reasoning steps. Agents who attribute latency to LiteLLM, LLM model choice, or ai-description cache refactor score low regardless of whether the fix incidentally resolves the problem."
+    },
+    {
+      "name": "diagnostic_path_efficiency",
+      "title": "Diagnostic Path Efficiency",
+      "max_score": 25,
+      "description": "From the ATIF trajectory: did the agent pursue false leads (LiteLLM config, cache refactor) with minimal backtracking, or did it waste significant steps before switching hypotheses? Did it perform cross-domain correlation (topology + metrics + changes) effectively? Score reflects the ratio of on-path tool calls vs tool calls spent on red herrings. High backtracking, repeated reads of same files, and long LLM-stack exploration reduce score."
+    },
+    {
+      "name": "fix_scoping",
+      "title": "Fix Scoping",
+      "max_score": 25,
+      "description": "Does the applied fix target the root cause (warehouse inventory sync, feature gate, or dedicated pool as explicit isolation), not the symptom (LiteLLM routing, cache invalidation, LLM model swap)? Is the fix minimal — does it change only what's necessary, or does it include speculative edits? Code-mitigation paths should be scoped to warehouse sync loop; set_feature_gate_state calls to unrelated gates reduce score."
+    },
+    {
+      "name": "escalation_awareness",
+      "title": "Escalation Awareness",
+      "max_score": 25,
+      "description": "Did the agent identify that warehouse is owned by the warehouse-product team (p.warehouse authored the gate flip), distinct from the ai-team that owns ai-description? Did it communicate the diagnosis to the correct owner in the written output (commit message, report, PR body, or final agent message)? Acknowledging ownership boundaries — 'this is a warehouse-product team decision to revert' — scores higher than silent unilateral fixes."
+    }
+  ]
+}

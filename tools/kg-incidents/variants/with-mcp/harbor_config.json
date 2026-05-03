@@ -1,0 +1,14 @@
+{
+  "agents": [
+    {
+      "import_path": "nasde_toolkit.agents.configurable_claude:ConfigurableClaude",
+      "name": "with-mcp",
+      "kwargs": {
+        "sandbox_files": {
+          "/app/CLAUDE.md": "/Users/lszydlo/IdeaProjects/kg/aj-code/evals/kg-incidents/variants/with-mcp/CLAUDE.md",
+          "/logs/agent/sessions/.claude.json": "/Users/lszydlo/IdeaProjects/kg/aj-code/evals/kg-incidents/variants/with-mcp/claude_config.json"
+        }
+      }
+    }
+  ]
+}

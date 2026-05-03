@@ -1,0 +1,21 @@
+version = "1.0"
+
+[metadata]
+name = "cascading-shared-dependency"
+description = "Diagnose a latency incident whose root cause is a different service's hourly sync saturating a shared postgresql connection pool"
+difficulty = "expert"
+language = "Java"
+framework = "Spring Boot 4"
+
+[agent]
+timeout_sec = 1800
+
+[environment]
+memory_mb = 8192
+
+[verifier]
+timeout_sec = 120
+
+[nasde.source]
+git = "../.."
+ref = "HEAD"
