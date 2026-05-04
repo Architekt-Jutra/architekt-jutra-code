@@ -50,4 +50,5 @@ Agnieszka prowadzi "FitBox" — catering dietetyczny w mieście średniej wielko
 
 
 ## PYTANIE
-"Jakie obejścia stosują ludzie w cateringu FitBox wobec oficjalnego systemu zamówień — kto omija system, jak, dlaczego, i jakie to rodzi konsekwencje? Jak systemy cateringowe i food delivery radzą sobie z obejściami procesu zamówień. “Poza zakresem: problemy z wydajnością strony WWW, ceny konkurencji.”"
+“Jakie obejścia stosują ludzie w cateringu FitBox wobec oficjalnego systemu zamówień — kto omija system, jak, dlaczego, i jakie to rodzi konsekwencje? Jak systemy cateringowe i food delivery radzą sobie z obejściami procesu zamówień. Poza zakresem: problemy z wydajnością strony WWW, ceny konkurencji.”
+
