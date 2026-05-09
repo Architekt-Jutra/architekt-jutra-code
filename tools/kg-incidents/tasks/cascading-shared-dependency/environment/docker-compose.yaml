@@ -1,5 +1,0 @@
-services:
-  main:
-    build:
-      context: ../../../../../../../../../../var/folders/y6/z4pk8x253j727nn4c94zn3640000gn/T/nasde-build-mq7fpqsr
-      dockerfile: ../../../../../../Users/lszydlo/IdeaProjects/kg/aj-code/evals/kg-incidents/tasks/cascading-shared-dependency/environment/Dockerfile
