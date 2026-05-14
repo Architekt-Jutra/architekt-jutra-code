@@ -5,8 +5,8 @@
       "name": "with-mcp-kg",
       "kwargs": {
         "sandbox_files": {
-          "/app/CLAUDE.md": "/Users/lszydlo/IdeaProjects/kg/aj-code/evals/kg-incidents/variants/with-mcp-kg/CLAUDE.md",
-          "/logs/agent/sessions/.claude.json": "/Users/lszydlo/IdeaProjects/kg/aj-code/evals/kg-incidents/variants/with-mcp-kg/claude_config.json"
+          "/app/CLAUDE.md": "variants/with-mcp-kg/CLAUDE.md",
+          "/logs/agent/sessions/.claude.json": "variants/with-mcp-kg/claude_config.json"
         }
       }
     }

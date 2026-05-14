@@ -31,10 +31,10 @@ WORKDIR /app
 COPY . /app
 
 # Copy task-scoped artifacts to a stable location outside /app (which may be rewritten by the agent)
-RUN cp -r /app/evals/kg-incidents/tasks/cascading-shared-dependency/kg-seed /opt/kg-seed \
-    && cp -r /app/evals/kg-incidents/tasks/cascading-shared-dependency/mcp-seeds /opt/mcp-seeds \
-    && cp -r /app/evals/kg-incidents/tasks/cascading-shared-dependency/mcp-servers /opt/mcp-servers \
-    && cp /app/evals/kg-incidents/tasks/cascading-shared-dependency/environment/entrypoint.sh /opt/entrypoint.sh \
+RUN cp -r /app/tools/kg-incidents/tasks/cascading-shared-dependency/kg-seed /opt/kg-seed \
+    && cp -r /app/tools/kg-incidents/tasks/cascading-shared-dependency/mcp-seeds /opt/mcp-seeds \
+    && cp -r /app/tools/kg-incidents/tasks/cascading-shared-dependency/mcp-servers /opt/mcp-servers \
+    && cp /app/tools/kg-incidents/tasks/cascading-shared-dependency/environment/entrypoint.sh /opt/entrypoint.sh \
     && chmod +x /opt/entrypoint.sh
 
 # Reinitialize git inside /app so agent can commit (remove any .git inherited
