@@ -265,7 +265,7 @@ For each command that enforces an invariant, I inferred the following minimum da
 
 | Command        | Data needed to decide             | Why                                    |
 |----------------|-----------------------------------|----------------------------------------|
-| block slot     | list of existing blocks (IDs + time ranges) | check for overlap |
+| block slot     | list  (IDs + time ranges)         | check for overlap                      |
 | disable        | current enabled/disabled status   | idempotency check                      |
 | ...            | ...                               | ...                                    |
 
