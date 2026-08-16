@@ -43,3 +43,5 @@ plugins/*/node_modules/
 
 ### LiteLLM ###
 litellm/.env
+
+.planning/
