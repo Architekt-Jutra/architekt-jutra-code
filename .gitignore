@@ -44,4 +44,4 @@ plugins/*/node_modules/
 ### LiteLLM ###
 litellm/.env
 
-.planning/
+week9/gpd/.planning/
