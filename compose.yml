@@ -61,7 +61,7 @@ services:
   minio:
     labels:
       org.springframework.boot.ignore: "true"
-    image: minio/minio:latest
+    image: pgsty/minio:latest
     ports:
       - '9010:9000'
       - '9011:9001'
@@ -81,7 +81,7 @@ services:
   minio-setup:
     labels:
       org.springframework.boot.ignore: "true"
-    image: minio/mc:latest
+    image: pgsty/mc:latest
     depends_on:
       minio:
         condition: service_healthy
