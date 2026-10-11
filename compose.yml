@@ -214,7 +214,7 @@ services:
   litellm:
     labels:
       org.springframework.boot.ignore: "true"
-    image: ghcr.io/berriai/litellm:main-stable
+    image: docker.io/litellm/litellm:main-stable
     ports:
       - '4000:4000'
     volumes:
